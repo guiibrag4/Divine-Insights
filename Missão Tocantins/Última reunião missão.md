@@ -8,11 +8,9 @@
 - Ser zeloso com tudo, ir pro Viva o Amor não é que nem um retiro da igreja, um acamp, é uma missão, estamos indo para servir, pra uma zona espiritual de guerra. Precisamos ser zelosos, nos organizar com o tempo, cumprir e respeitas os horários,
 - Descansar para estar no campo no dia seguinte,
 - O ônibus nos levará a bases e nos deixar no bairro de evangelismo e na nossa base central,
-
-![imagem](Deus,%20meu%20pai%20☕/Estudos%20Bíblicos/Missão%20Tocantins/Missão%20Tocantins%201/Imagens/image1.png)
 #### O que levar?
 
-![[Pasted image 20250724220347.png]]
+![[Deus, meu pai ☕/Missão Tocantins/Imagens/image1.png]]
 
 #### Mídia
 
@@ -32,9 +30,9 @@
 ## Cassio Torres
 #### Regras gerais 
 
-![[Pasted image 20250724221348.png]]
+![[image2.png]]
 
-![[Pasted image 20250724222125.png]]
+![[image3.png]]
 
 
 - ponto 5
