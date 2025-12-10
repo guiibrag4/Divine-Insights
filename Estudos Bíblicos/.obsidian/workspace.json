@@ -1,0 +1,216 @@
+{
+  "main": {
+    "id": "06b2f73d783b2ce0",
+    "type": "split",
+    "children": [
+      {
+        "id": "f09a4f86016ff246",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5c0cf18dcd6dd4fd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "7- Jejum - Para que serve o Jejum/3- Por que o jejum funciona.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "3- Por que o jejum funciona"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ecaac36d196c1f1e",
+    "type": "split",
+    "children": [
+      {
+        "id": "ef5499e6a138f5c6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d4f76bae7acaacdd",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de ficheiros"
+            }
+          },
+          {
+            "id": "0a2bb6b9eb9b3934",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "e50d26e953090d61",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "5006625994cc917b",
+    "type": "split",
+    "children": [
+      {
+        "id": "4301ae63e11b9402",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "12e436040623e0ec",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "7- Jejum - Para que serve o Jejum/3- Por que o jejum funciona.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": true,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks para 3- Por que o jejum funciona"
+            }
+          },
+          {
+            "id": "858cb8e232d19e01",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Welcome.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links externos de Welcome"
+            }
+          },
+          {
+            "id": "0e39048d4d005103",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "bd204321623086cf",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Welcome.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Índice de Welcome"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir Quick Switcher": false,
+      "graph:Abrir Visualização de diagrama de grafo": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Abrir nota de hoje": false,
+      "templates:Inserir templates": false,
+      "command-palette:Abrir paleta de comando": false
+    }
+  },
+  "active": "d4f76bae7acaacdd",
+  "lastOpenFiles": [
+    "Missão Tocantins/Última reunião missão.md",
+    "Missão Tocantins/Imagens/image3.png",
+    "Missão Tocantins/Imagens/image1.png",
+    "Missão Tocantins/Imagens/image2.png",
+    "Missão Tocantins/Imagens/Pasted image 20250724223320.png",
+    "Missão Tocantins/Imagens/Pasted image 20250724223311.png",
+    "Missão Tocantins 1/Última reunião missão.md",
+    "Os dons espirituais - Nick Moretti.md",
+    "Missão Tocantins 1/Imagens/image1.png",
+    "Missão Tocantins 1/Imagens/Pasted image 20250724220347.png",
+    "Missão Tocantins 1/Imagens/Pasted image 20250724223311.png",
+    "Missão Tocantins 1/Imagens/Pasted image 20250724222125.png",
+    "Missão Tocantins 1/Imagens/Pasted image 20250724223320.png",
+    "Missão Tocantins 1/Imagens",
+    "Missão Tocantins 1",
+    "7- Jejum - Para que serve o Jejum/3- Por que o jejum funciona.md",
+    "Missão Tocantins/Imagens",
+    "Missão Tocantins",
+    "7- Jejum - Para que serve o Jejum/Imagens",
+    "7- Jejum - Para que serve o Jejum/2- Jejum bíblico (carne vs espírito).md",
+    "7- Jejum - Para que serve o Jejum/1- Votos ou propósitos.md",
+    "5- Oração - Como Deus responde a nossa oração/8- Atividade, texto - Por que precisamos orar.md",
+    "6- Igreja - Precisamos mesmo da igreja/6- Atividade - Texto - Precisamos da igreja local e por que existem tantas denominações.md",
+    "Sem título 2",
+    "Sem título 1",
+    "Sem título 1.md",
+    "7- Jejum - Para que serve o Jejum",
+    "6- Igreja - Precisamos mesmo da igreja/5- A importância da submissão.md",
+    "Oração - Como Deus responde a nossa oração/6- Atividade.md",
+    "5- Oração - Como Deus responde a nossa oração/6- Deus sabe o que é melhor para nós.md",
+    "6- Igreja - Precisamos mesmo da igreja/4- Os problemas na igreja.md",
+    "6- Igreja - Precisamos mesmo da igreja/3- Qual a igreja verdadeira.md",
+    "6- Igreja - Precisamos mesmo da igreja/2- A igreja local.md",
+    "5- Oração - Como Deus responde a nossa oração/2- Como orar.md",
+    "5- Oração - Como Deus responde a nossa oração/1- Por que orar.md",
+    "6- Igreja - Precisamos mesmo da igreja/1- A igreja espiritual.md",
+    "5- Oração - Como Deus responde a nossa oração/7- A perseverança na oração.md",
+    "5- Oração - Como Deus responde a nossa oração/5- Quem recebe as nossas orações.md",
+    "5- Oração - Como Deus responde a nossa oração/4- A oração ensinada por Jesus.md",
+    "5- Oração - Como Deus responde a nossa oração/3- Quando e onde devemos orar.md",
+    "6- Igreja - Precisamos mesmo da igreja",
+    "Welcome.md"
+  ]
+}

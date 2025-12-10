@@ -1,0 +1,8 @@
+
+1- Precisamos da igreja local?
+
+Sim, precisamos, pois ir a igreja local é uma consequência direta de ser salvo e ser participante da Igreja espiritual de Cristo. A igreja é um ambiente propício para desenvolver nosso ministério, o nosso chamado, crescermos junto com nossos irmãos, edificando a eles e da mesma forma, eles nos edificando. Além disso, a igreja nos traz a convivência que muitas vezes vai trazer conflito, complicações e juntamente com isso vai nos levar a exercitar os frutos do Espírito Santo, sem falar que nossos irmãos nos ajuda em nossas tribulações e problemas.
+
+2- Por que existem tantas denominações?
+
+Basicamente, é porque existem questões teológicas doutrinárias não obrigatórias, como a predestinação, o livre-arbítrio, pré ou pós tribulacionasmo, etc. Essas questões não são fundamentais e não dependemos diretamente delas para a nossa salvação, mas mesmo assim são importantes e por isso estão na bíblia. Porém, as pessoas possuem intepretações diferentes em volta desses temas, pois realmente são de difícil interpretação e além disso são coisas que Deus não deixa tão detalhado assim na bíblia, por isso existem divergências, mas mesmo assim, as doutrinas fundamentais e obrigatórias permanecessem. Também existe a questão cultural, onde em cada local existe uma cultura diferente. A questão é que se essa cultura não é adversa ao evangelho e a palavra de Deus e, se ela glorifica a Deus, não há problema nenhum.
