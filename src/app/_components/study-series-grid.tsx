@@ -1,17 +1,8 @@
 import { SeriesCard } from "./series-card";
-
-type StudySeries = {
-  title: string;
-  description: string;
-  slug: string;
-  coverImage: string;
-  chaptersCount: number;
-  lastUpdate: string;
-  status: "em-andamento" | "completo";
-};
+import { type Series } from "@/interfaces/series";
 
 type Props = {
-  series: StudySeries[];
+  series: Series[];
 };
 
 export function StudySeriesGrid({ series }: Props) {

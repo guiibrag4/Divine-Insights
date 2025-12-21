@@ -11,8 +11,8 @@ type NavigationInfo = {
  * Calcula a navegação de capítulos para uma série de estudos.
  * Identifica o índice da série e os capítulos anterior/próximo baseado no slug atual.
  */
-export function getChapterNavigation(currentSlug: string): NavigationInfo | null {
-  const allPosts = getAllPosts();
+export async function getChapterNavigation(currentSlug: string): Promise<NavigationInfo | null> {
+  const allPosts = await getAllPosts();
   const { normalizedSlug, series } = parsePostSlug(currentSlug);
   if (!series) return null;
 

@@ -49,9 +49,13 @@ const VERSES = [
 ];
 
 export async function HeroBento() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   const latest = posts[0];
   const verse = VERSES[new Date().getDate() % VERSES.length];
+
+  if (!latest) {
+    return null;
+  }
 
   return (
     <section className="mt-10 mb-10">

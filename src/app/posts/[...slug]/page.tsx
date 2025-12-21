@@ -2,28 +2,64 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
 import { getChapterNavigation } from "@/lib/navigation";
+import { getAllSeries } from "@/lib/series";
 import markdownToHtml from "@/lib/markdownToHtml";
 import Container from "@/app/_components/container";
 import Header from "@/app/_components/header";
 import DateFormatter from "@/app/_components/date-formatter";
 import CoverImage from "@/app/_components/cover-image";
 import { ChapterNavigation } from "@/app/_components/chapter-navigation";
+import { DynamicSeriesIndex } from "@/app/_components/dynamic-series-index";
 
 // Disable static generation, use dynamic rendering instead
 export const dynamicParams = true;
+export const revalidate = 60; // Revalidar a cada 60 segundos
 
 export default async function Post(props: Params) {
   const params = await props.params;
   // Convert array to string slug (e.g., ['1joao', '1joao-02-capitulo-2'] => '1joao/1joao-02-capitulo-2')
   const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return notFound();
   }
 
+  // Detectar se é uma página índice
+  const isIndexPage = post.slug.includes("-00-indice") || post.slug.includes("indice");
+  
+  if (isIndexPage) {
+    // Buscar dados da série para o índice dinâmico
+    const series = await getAllSeries();
+    const seriesSlug = post.series || post.slug.split("/")[0];
+    const seriesData = series.find((s) => s.slugPrefix === seriesSlug);
+
+    return (
+      <main>
+        <Container>
+          <Header />
+          <article className="mb-32 mt-10">
+            <div className="mb-12 md:mb-16 max-w-6xl mx-auto px-5 md:px-8">
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <CoverImage title={post.title} src={post.coverImage} slug={post.slug} />
+              </div>
+            </div>
+            
+            <div className="max-w-4xl mx-auto px-5 md:px-8">
+              <DynamicSeriesIndex
+                seriesSlug={seriesSlug}
+                seriesTitle={seriesData?.title || post.title.split("|")[0]?.trim() || "Série"}
+                seriesDescription={seriesData?.description || post.excerpt}
+              />
+            </div>
+          </article>
+        </Container>
+      </main>
+    );
+  }
+
   const content = await markdownToHtml(post.content || "");
-  const navigation = getChapterNavigation(slug);
+  const navigation = await getChapterNavigation(slug);
 
   return (
     <main>
@@ -121,7 +157,7 @@ type Params = {
 export async function generateMetadata(props: Params): Promise<Metadata> {
   const params = await props.params;
   const slug = params.slug.join('/');
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -141,7 +177,7 @@ export async function generateMetadata(props: Params): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   return posts.map((post) => ({
     slug: post.slug.split('/'),

@@ -2,19 +2,10 @@ import Link from "next/link";
 import { CalendarDays, BookOpen } from "lucide-react";
 import DateFormatter from "./date-formatter";
 import { buildPostHref } from "@/lib/slug";
-
-type StudySeries = {
-  title: string;
-  description: string;
-  slug: string;
-  coverImage: string;
-  chaptersCount: number;
-  lastUpdate: string;
-  status: "em-andamento" | "completo";
-};
+import { type Series } from "@/interfaces/series";
 
 type Props = {
-  item: StudySeries;
+  item: Series;
 };
 
 export function SeriesCard({ item }: Props) {
@@ -31,10 +22,20 @@ export function SeriesCard({ item }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
         <div className="absolute top-4 right-4">
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-            item.status === "completo" ? "bg-green-500 text-white" : "bg-yellow-500 text-stone-900"
-          }`}>
-            {item.status === "completo" ? "✓ Completo" : "📝 Em Andamento"}
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+              item.status === "completo"
+                ? "bg-green-500 text-white"
+                : item.status === "em-andamento"
+                ? "bg-yellow-500 text-stone-900"
+                : "bg-stone-500 text-white"
+            }`}
+          >
+            {item.status === "completo"
+              ? "✓ Completo"
+              : item.status === "em-andamento"
+              ? "📝 Em Andamento"
+              : "Rascunho"}
           </span>
         </div>
       </div>
