@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, BookOpen } from "lucide-react";
 import DateFormatter from "./date-formatter";
+import { buildPostHref } from "@/lib/slug";
 
 type StudySeries = {
   title: string;
@@ -19,7 +20,7 @@ type Props = {
 export function SeriesCard({ item }: Props) {
   return (
     <Link
-      href={`/posts/${item.slug}`}
+      href={buildPostHref(item.slug)}
       className="group block rounded-xl overflow-hidden shadow-2xl hover:shadow-2xl transition-all duration-300 border-2 border-stone-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
     >
       <div className="relative h-48">

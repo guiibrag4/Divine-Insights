@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import DateFormatter from "./date-formatter";
 import { type Post } from "@/interfaces/post";
+import { buildPostHref } from "@/lib/slug";
 
 export function LatestChapterCard({ post }: { post: Post }) {
   return (
@@ -10,7 +11,7 @@ export function LatestChapterCard({ post }: { post: Post }) {
         Último capítulo publicado
       </h2>
       <Link
-        href={`/posts/${post.slug}`}
+        href={buildPostHref(post.slug)}
         className="group block rounded-2xl overflow-hidden shadow-2xl hover:shadow-2xl transition-shadow border-2 border-stone-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
       >
         <div className="grid grid-cols-1 md:grid-cols-3">

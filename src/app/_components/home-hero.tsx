@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { heroImages } from "@/lib/brand";
 import { useMemo } from "react";
+import { buildPostHref } from "@/lib/slug";
 
 type Props = {
   primaryCtaSlug: string; // capítulo mais recente
@@ -31,7 +32,7 @@ export function HomeHero({ primaryCtaSlug, indexSlug }: Props) {
           </p>
           <div className="mt-6 flex gap-3">
             <Link
-              href={`/posts/${primaryCtaSlug}`}
+              href={buildPostHref(primaryCtaSlug)}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-sm hover:shadow-md hover:from-blue-600 hover:to-indigo-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               <BookOpen className="w-5 h-5" />

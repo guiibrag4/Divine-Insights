@@ -1,6 +1,7 @@
 import cn from "classnames";
 import Link from "next/link";
 import Image from "next/image";
+import { buildPostHref } from "@/lib/slug";
 
 type Props = {
   title: string;
@@ -25,7 +26,7 @@ const CoverImage = ({ title, src, slug }: Props) => {
   return (
     <div className="sm:mx-0">
       {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
+        <Link href={buildPostHref(slug)} aria-label={title}>
           {image}
         </Link>
       ) : (

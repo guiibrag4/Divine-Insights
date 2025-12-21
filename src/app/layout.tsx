@@ -12,6 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: `Divine Insights - Estudos Bíblicos Profundos`,
   description: `Explore estudos bíblicos detalhados com análises profundas das Escrituras Sagradas. Fortaleça sua caminhada espiritual com conteúdo de qualidade.`,
+  metadataBase: new URL("https://divine-insights.vercel.app"),
   openGraph: {
     images: [HOME_OG_IMAGE_URL],
   },

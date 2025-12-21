@@ -1,6 +1,7 @@
 import Link from "next/link";
 import DateFormatter from "./date-formatter";
 import { getAllPosts } from "@/lib/api";
+import { buildPostHref } from "@/lib/slug";
 
 // Ícones SVG consistentes (stroke)
 const IconBook = (props: React.SVGProps<SVGSVGElement>) => (
@@ -94,7 +95,7 @@ export async function HeroBento() {
 
         {/* Tile Último Estudo */}
         <Link
-          href={`/posts/${latest.slug}`}
+          href={buildPostHref(latest.slug)}
           className="group overflow-hidden rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-lg transition-all"
         >
           <div className="relative h-40 md:h-48">
