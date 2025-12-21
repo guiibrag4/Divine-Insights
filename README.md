@@ -20,7 +20,9 @@ Sim, esse repositório está um pouco "fora da bolha Dev" tradicional, mas a vid
 
 ### 🌐 Acesse o Blog
 Você pode ler os estudos formatados e com a melhor experiência visual diretamente no site:
-**[🔗 Clique aqui para acessar o Blog](https://seusite.vercel.app)**
+**[🔗 Clique aqui para acessar o Blog](https://divine-insights-ten.vercel.app/)**
+> Abra com ctrl + clique para abrir em outra página
+
 
 ---
 
