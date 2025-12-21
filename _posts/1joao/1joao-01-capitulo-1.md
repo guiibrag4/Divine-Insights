@@ -39,4 +39,4 @@ Isso é um processo, um processo de aperfeiçoamento, de santificação, que é 
 **Próximo Passo:**
 Navegue para o próximo capítulo onde abordaremos a batalha entre Luz e Trevas.
 
-👉 **[Ir para o Capítulo 2: Andar na Luz vs Trevas](/posts/1joao-02-capitulo-2)**
+👉 **[Ir para o Capítulo 2: Andar na Luz vs Trevas](/posts/1joao/1joao-02-capitulo-2)**

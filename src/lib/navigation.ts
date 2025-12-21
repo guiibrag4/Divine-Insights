@@ -13,25 +13,30 @@ type NavigationInfo = {
 export function getChapterNavigation(currentSlug: string): NavigationInfo | null {
   const allPosts = getAllPosts();
   
-  // Extrai o padrão da série do slug (ex: "1joao-01-capitulo-1" -> "1joao")
-  const seriesMatch = currentSlug.match(/^([a-z0-9]+)-/);
+  // Extrai o padrão da série do slug (ex: "1joao/1joao-01-capitulo-1" -> "1joao" ou "1joao-01-capitulo-1" -> "1joao")
+  // Remove o diretório se existir (ex: "1joao/1joao-01-capitulo-1" -> "1joao-01-capitulo-1")
+  const fileNameOnly = currentSlug.includes('/') ? currentSlug.split('/').pop()! : currentSlug;
+  const seriesMatch = fileNameOnly.match(/^([a-z0-9]+)-/);
   if (!seriesMatch) return null;
   
   const seriesPrefix = seriesMatch[1];
   
   // Encontra todos os posts da mesma série
   const seriesPosts = allPosts
-    .filter(post => post.slug.startsWith(seriesPrefix + "-"))
+    .filter(post => {
+      const postFileName = post.slug.includes('/') ? post.slug.split('/').pop()! : post.slug;
+      return postFileName.startsWith(seriesPrefix + "-");
+    })
     .sort((a, b) => a.slug.localeCompare(b.slug));
   
   // Encontra o índice da série (slug que termina com "-00-indice")
   const indexPost = seriesPosts.find(post => post.slug.includes("-00-indice"));
-  const seriesIndexSlug = indexPost ? indexPost.slug : `${seriesPrefix}-00-indice`;
+  const seriesIndexSlug = indexPost ? indexPost.slug : `${seriesPrefix}/${seriesPrefix}-00-indice`;
   
   // Filtra apenas os capítulos (exclui o índice)
   const chapters = seriesPosts.filter(post => !post.slug.includes("-00-indice"));
   
-  // Encontra o índice do capítulo atual
+  // Encontra o índice do capítulo atual - compara pelo slug completo
   const currentIndex = chapters.findIndex(post => post.slug === currentSlug);
   
   if (currentIndex === -1) {

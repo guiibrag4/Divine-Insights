@@ -1,77 +1,99 @@
 # Divine Insights - Copilot Instructions
 
 ## Project Overview
-Static blog built with **Next.js 15 App Router** + TypeScript + Tailwind CSS for biblical studies content. Content is authored in Markdown files with frontmatter, processed server-side using `remark` and `gray-matter`.
+Static blog for biblical studies built with **Next.js 15 App Router** + TypeScript + Tailwind CSS. Content is file-based (Markdown in `/_posts/`) with intelligent series navigation. The site emphasizes Portuguese localization, dark mode support, and minimal design. Deploy target is Vercel (static export).
 
 ## Architecture
 
 ### Content Flow (File-based CMS)
-1. **Source**: Markdown files in `/_posts/` with frontmatter metadata (title, date, author, coverImage, excerpt)
-2. **Reading**: `src/lib/api.ts` reads filesystem, parses frontmatter with `gray-matter`, returns typed `Post` objects
-3. **Processing**: `src/lib/markdownToHtml.ts` converts markdown → HTML using `remark` + `remark-gfm` (GitHub Flavored Markdown)
-4. **Rendering**: Server Components consume posts via `getAllPosts()` and `getPostBySlug()`
+1. **Source**: Markdown in `/_posts/{series}/` with required frontmatter: `title`, `excerpt`, `date`, `author`, `coverImage`
+2. **Reading**: `src/lib/api.ts` recursively scans `_posts/`, parses YAML frontmatter via `gray-matter`, returns fully-typed `Post` objects
+3. **Processing**: `markdownToHtml()` converts markdown → HTML using `remark` + `remark-gfm` (enables GFM: tables, strikethrough, tasklists)
+4. **Rendering**: All `src/app/_components/` are Server Components by default; posts hydrate via `getAllPosts()` and `getPostBySlug(slug)`
 
-**Critical**: `remark-gfm` plugin is **mandatory** for table support and GFM features. Never remove it.
+**Why this matters**: The `gray-matter` parsing extracts frontmatter from markdown file **content** field - don't modify post object shape without updating all usages.
 
-### Routing Structure
-- `/` → `src/app/page.tsx` - Homepage with study series overview cards
-- `/posts/[slug]` → `src/app/posts/[slug]/page.tsx` - Individual post/chapter page with dynamic navigation
-- `/posts/1joao-00-indice` → Series index page with chapter listings
-- Slugs derived from markdown filename (e.g., `1joao-01-capitulo-1.md` → `/posts/1joao-01-capitulo-1`)
+### Routing (File-based CMS → Static Routes)
+- `/` → `src/app/page.tsx` - Homepage lists all series from `studySeries` array (hardcoded study metadata)
+- `/posts/[...slug]` → `src/app/posts/[...slug]/page.tsx` - Handles nested paths like `posts/1joao/1joao-01-capitulo-1`
+- `generateStaticParams()` pre-builds routes at `next build` time for all markdown files
+- Slugs are **relative paths from `_posts/`** including directory prefix (e.g., `1joao/1joao-01-capitulo-1`)
 
-### Navigation System
-- **Intelligent chapter navigation**: `src/lib/navigation.ts` provides `getChapterNavigation()` function
-- Automatically detects series from slug pattern (e.g., `1joao-XX-*` maps to series index `1joao-00-indice`)
-- Navigation component (`ChapterNavigation`) shows Previous/Index/Next buttons with chapter titles
-- Supports multiple series with pattern: `{series}-{order}-{description}.md`
+### Intelligent Navigation System
+- `src/lib/navigation.ts`: `getChapterNavigation(slug)` extracts series prefix via regex, sorts chapters, returns previous/next links
+- **Series pattern**: `{series}-{order}-{description}.md` where `{series}` is lowercase identifier extracted from first slug segment
+- Example: `1joao-01-capitulo-1.md` → matches `1joao` prefix → finds `1joao-00-indice.md` as index → provides prev/next chapter links
+- **Index detection**: Posts matching `*-00-indice` are treated as series landing pages (no chapter navigation)
+- This enables **multi-series** sites; navigation auto-configures based on file naming convention alone
+
+### Component Architecture
+- **Server Components**: All `_components/` are Server Components for optimal performance; access filesystem directly via `getPostBySlug()` in `page.tsx`
+- **Client Components**: Only `theme-switcher.tsx` (dark mode toggle, localStorage) is marked `'use client'` for interactivity
+- **Shared UI**: `Container`, `Header`, `Footer`, `CoverImage` provide consistent layout across pages
+- **Post-specific**: `PostBody` (renders HTML), `PostHeader` (title/date), `PostPreview` (card in grids), `ChapterNavigation` (prev/next buttons)
 
 ### Type System
-- `src/interfaces/post.ts` - Core `Post` type with all required fields
-- `src/interfaces/author.ts` - `Author` type (name, picture)
-- Path aliases: `@/*` maps to `src/*` (configured in `tsconfig.json`)
+- `src/interfaces/post.ts`: `Post` extends frontmatter fields + `slug`, `content` (raw markdown, not HTML)
+- `src/interfaces/author.ts`: `Author` object with `name`, `picture` URL
+- `tsconfig.json` path alias: `@/*` → `src/*` simplifies imports across components and libs
 
-## Styling Conventions
+## Styling & Theming
 
-### Theme System
-- **Dark mode**: Implemented via `class` strategy (`tailwind.config.ts`: `darkMode: "class"`)
-- Custom theme switcher in `src/app/_components/theme-switcher.tsx` with localStorage persistence (`STORAGE_KEY: "nextjs-blog-starter-theme"`)
-- Anti-FOUC script injected in client component to apply dark class before paint
-- Theme switcher accessible in Header component on all pages
+### Dark Mode (Critical Pattern)
+- **Strategy**: Tailwind `class` mode (not `media`) - `<html class="dark">` is toggled by `theme-switcher.tsx`
+- **Anti-FOUC**: `NoFOUCScript` component in `layout.tsx` applies dark class in `<head>` before paint to prevent light flash
+- **Persistence**: `localStorage.setItem("nextjs-blog-starter-theme", "dark"|"light")` in `theme-switcher.tsx`
+- **All dark variants use `dark:` prefix**: `text-stone-900 dark:text-stone-100`, `prose dark:prose-invert`, `bg-slate-50 dark:bg-slate-900`
 
-### Design System
-- **Color palette**: Stone shades (50-900) for neutrals, Blue/Purple gradients for accents
-- **Typography**: Tailwind Typography plugin (`@tailwindcss/typography`) for markdown content
-- **Post content styling**: 
-  - `prose-lg prose-stone dark:prose-invert max-w-none w-full text-justify` - Main content wrapper
-  - `max-w-5xl mx-auto` - Wide content container for text (5xl = ~1024px)
-  - `max-w-6xl mx-auto` - Extra wide for cover images
-  - Dark mode support: `dark:prose-invert` with custom modifiers for headings, links, tables, blockquotes
-  - Responsive blockquotes: `prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-slate-800`
+### Typography System
+- **Foundation**: `@tailwindcss/typography` plugin required - provides `.prose` class for markdown content styling
+- **Content wrapper**: `prose prose-lg prose-stone dark:prose-invert max-w-none w-full text-justify` on `PostBody`
+  - `prose-lg` = larger font/spacing for readability
+  - `prose-stone` = stone color scheme (headings, links, text)
+  - `dark:prose-invert` = inverts colors for dark mode (light text on dark bg)
+  - `max-w-none w-full` = full width, prose doesn't constrain
+  - `text-justify` = aligns text to both edges (Portuguese typography preference)
+- **Table styling**: Prose automatically styles GFM tables; dark mode tables use `dark:border-slate-700`
+- **Blockquote accent**: `prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-slate-800`
 
-### Layout Patterns
-- Components use `Container` wrapper with responsive padding: `px-5 md:px-8 lg:px-12`
-- Homepage features: `StudyIntro` (hero) → `AboutSection` (features) → `StudySeriesGrid` (cards)
-- Post pages structure: Header → Title/Date → Cover Image → Content → ChapterNavigation
-- Series cards show status badges ("Em Andamento" / "Completo"), chapter count, and last update date
+### Color Palette & Spacing
+- **Neutrals**: Stone (50, 100, 300, 500, 700, 900) for text, backgrounds
+- **Accents**: Blue (500, 600), Purple for interactive elements and highlights
+- **Container padding**: Responsive - `px-5 md:px-8 lg:px-12` via `Container` component
+- **Content constraints**: `max-w-5xl mx-auto` for prose text, `max-w-6xl mx-auto` for cover images
 
-## Key Files
+### Layout Primitives
+- **Reusable**: `Container` (constrained width + responsive padding), `Section` separators, cover images
+- **Homepage flow**: `Header` → `StudyIntro` (hero with description) → `AboutSection` (feature highlights) → `StudySeriesGrid` (cards with status badges)
+- **Post flow**: `Header` → `PostHeader` (title + date) → `CoverImage` → `PostBody` (markdown) → `ChapterNavigation` (prev/next)
 
-### Content Creation
-**Series naming convention**: `{series}-{order}-{description}.md`
-- `{series}`: lowercase identifier (e.g., `1joao`, `genesis`)
-- `{order}`: zero-padded number (00 for index, 01-99 for chapters)
-- `{description}`: descriptive slug (e.g., `indice`, `capitulo-1`)
+## Content Creation & Series Management
 
-**Examples**:
-- `1joao-00-indice.md` → Series index page
-- `1joao-01-capitulo-1.md` → Chapter 1
-- `1joao-02-capitulo-2.md` → Chapter 2
+### File Structure Convention
+**All markdown lives in `/_posts/{series}/` subdirectories:**
+```
+_posts/
+  1joao/              # Series folder - must match series prefix
+    1joao-00-indice.md          # Index/landing page (00 is reserved)
+    1joao-01-capitulo-1.md      # Chapter 1
+    1joao-02-capitulo-2.md      # Chapter 2
+  mateus/
+    mateus-00-indice.md
+    mateus-01-capitulo-1.md
+```
 
-**Frontmatter structure**:
+### Naming Rules (Critical for Navigation)
+- **Pattern**: `{series}-{order:00-99}-{description}.md`
+- **Series prefix**: Extracted from first slug segment in URL (e.g., `1joao` from `/posts/1joao-01-capitulo-1`)
+- **Order**: Zero-padded (00, 01, 02, etc.) - determines chapter sequence in navigation
+- **Index files**: MUST end with `-00-indice` to be detected as series landing pages (no chapter nav)
+- **Deviation breaks navigation**: Renaming or moving files requires `next build` rebuild
+
+### Frontmatter Template
 ```yaml
 ---
 title: '1 João | Capítulo 1: A Palavra da Vida'
-excerpt: 'Short description shown in cards and meta tags'
+excerpt: 'Short description shown in series cards and meta tags'
 coverImage: '/assets/blog/estudos/1joao-cover.png'
 date: '2025-12-20T08:00:00.000Z'
 author:
@@ -82,50 +104,88 @@ ogImage:
 ---
 ```
 
-### Component Organization
-- All components in `src/app/_components/` are React Server Components by default
-- Client components: `theme-switcher.tsx` (localStorage), `chapter-navigation.tsx` uses Link (SSR-safe)
-- Homepage components: `study-intro.tsx`, `about-section.tsx`, `study-series-grid.tsx`
-- Post components: `chapter-navigation.tsx` for intelligent previous/next navigation
-
-### Adding New Series
-1. Create markdown files: `{series}-00-indice.md` (index) + `{series}-01-*.md` (chapters)
-2. Update homepage (`src/app/page.tsx`) → add entry to `studySeries` array
-3. Navigation automatically works via `getChapterNavigation()` function
+### Homepage Series Registration
+Add entries to `studySeries` array in `src/app/page.tsx`:
+```typescript
+{
+  title: "1 João",
+  description: "Exposição de 1 João...",
+  slug: "1joao",        // Must match folder name
+  status: "Em Andamento", // or "Completo"
+  chapters: 5,
+  lastUpdate: "2025-12-20",
+  previewImage: "/assets/blog/capas/1joao.png"
+}
+```
+Slugs in this array are the series prefixes used by `getChapterNavigation()` to find posts.
 
 ## Development Workflow
 
-### Commands
-- `npm run dev` - Start dev server with **Turbopack** (Next.js 15 default)
-- `npm run build` - Production build with static generation
-- `npm start` - Serve production build
+### Build & Runtime
+- **Dev**: `npm run dev` launches Next.js with **Turbopack** (Next.js 15 default, much faster builds)
+- **Production**: `npm run build` pre-renders all routes via `generateStaticParams()` + `generateMetadata()`, then `npm start` serves static files
+- **Static Export**: Site is fully static - no server-side computation after build (important for Vercel)
 
-### PowerShell Issues
-If script execution is disabled, prefix commands with:
+### Adding Features - By Feature Type
+
+**New markdown field** (e.g., "keywords"):
+1. Add to frontmatter in markdown files
+2. Update `Post` interface in `src/interfaces/post.ts` to include field
+3. `gray-matter` automatically parses any YAML fields → no code changes needed to read
+
+**New Series**:
+1. Create `_posts/{series-name}/` folder
+2. Add `{series-name}-00-indice.md` and `{series-name}-01-*.md` files
+3. Add entry to `studySeries` in `src/app/page.tsx` with metadata (title, chapters, status)
+4. Navigation auto-configures via `getChapterNavigation()`; rebuild site with `next build`
+
+**New Component**:
+1. Create in `src/app/_components/{name}.tsx` as Server Component
+2. Import with `import Component from "@/app/_components/name"`
+3. If needs `'use client'`, ensure only state/event handlers use that; keep data fetching in parent Server Component
+
+**Styling Changes**:
+- **Utility classes**: Prefer Tailwind (e.g., `text-lg text-stone-900 dark:text-stone-100`)
+- **Prose overrides**: Use Tailwind `prose-{element}:{styles}` in config or inline (e.g., `prose-blockquote:bg-blue-50`)
+- **CSS modules**: Only for special cases like `switch.module.css` (scoped component-level styles)
+
+### Windows PowerShell Execution Policy
+If you encounter script execution errors, run:
 ```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; <command>
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; npm run dev
 ```
+This sets permissions for the current terminal session only.
 
-### Adding Features
-1. **New markdown field**: Update `Post` interface → adjust frontmatter parsing if needed
-2. **New component**: Create in `src/app/_components/` → import with `@/app/_components/...`
-3. **Styling changes**: Prefer Tailwind utility classes; avoid CSS modules except for special cases (see `switch.module.css`)
-4. **New series**: Follow naming convention, navigation auto-configures
+## Deployment & Performance
+
+### Vercel Optimization
+- **Static Export**: All pages pre-rendered at `next build` time via `generateStaticParams()` 
+- **Zero Runtime**: No server-side logic after build; Vercel serves HTML/CSS/JS directly (Edge Network fast)
+- **Image optimization**: Use `next/image` for responsive images (auto-optimized by Vercel)
+- **Incremental Static Regeneration**: Not used (static-only approach); requires full rebuild for content changes
+
+### Key Deployment Settings
+- Deploy from `main` branch on GitHub
+- Vercel automatically runs `npm run build` → serves `out/` directory
+- Environment: Node.js default (no special env vars needed)
 
 ## Portuguese Localization
-- `<html lang="pt">` set in `layout.tsx`
-- Date formatting uses `date-fns` library (see `src/app/_components/date-formatter.tsx`)
-- All UI text in Portuguese: buttons, navigation labels, status badges
-- Content is biblical studies in Portuguese (1 João series example)
 
-## Deployment
-Optimized for **Vercel** deployment (static export). All posts are statically generated at build time via `generateMetadata()` and `generateStaticParams()` in post page.
+- **Language tag**: `<html lang="pt">` in `layout.tsx` (signals browsers + search engines)
+- **Date formatting**: `date-fns` library handles locale-aware dates; check `DateFormatter` component for format
+- **UI text**: All labels, navigation, badges in Portuguese (e.g., "Em Andamento", "Completo")
+- **Content direction**: LTR (Portuguese is left-to-right; no RTL needed)
+- **Typography**: Use `text-justify` for justified alignment (common in Portuguese printed books)
 
-## Common Pitfalls
-- Don't remove `remark-gfm` - breaks table rendering in markdown content
-- Post slugs must match filenames exactly (without `.md` extension)
-- Series naming convention is critical for navigation: `{series}-{order}-{description}.md`
-- Image paths in markdown must be absolute from `/public/` root
-- Dark mode class must be on `<html>` element (handled by theme switcher)
-- Props in Server Components with Next.js 15 must be awaited (`await props.params`)
-- Typography plugin required: `npm install -D @tailwindcss/typography` + add to `plugins` in `tailwind.config.ts`
+## Critical Patterns & Common Pitfalls
+
+| Pitfall | Why It Breaks | Fix |
+|---------|---------------|-----|
+| Removing `remark-gfm` from deps | Markdown tables, strikethrough, tasklists fail silently | Keep it in `package.json` dependencies + `markdownToHtml.ts` |
+| Post slug mismatch (e.g., `1joao-01-capitulo-1.md` but access as `1joao-cap-1`) | `getPostBySlug()` does exact filesystem path matching | Slug in URL must match filename exactly (minus `.md`) |
+| Series prefix inconsistency (e.g., file is `1joao-01-*.md` but array has `1-joao`) | `getChapterNavigation()` regex won't extract correct series prefix | File prefix must match `studySeries.slug` exactly |
+| Missing `-00-indice` file in series folder | Navigation returns `null`; chapter nav doesn't appear | Create index file for every series (name must end with `-00-indice`) |
+| `<html class="dark">` not in DOM | Dark mode class never applied; toggles don't work | Ensure `NoFOUCScript` runs first; `theme-switcher.tsx` adds class to `document.documentElement` |
+| Image paths in markdown as relative (`../assets/...`) | Images broken on deployed site | Use absolute paths from `/public/` root: `/assets/blog/estudos/image.png` |
+| Not awaiting `props.params` in Server Component | Type error; build fails | Always `const params = await props.params` in post page |
+| Missing `@tailwindcss/typography` plugin | Prose styling doesn't apply; unstyled markdown | Install: `npm install -D @tailwindcss/typography` + add to `plugins` in `tailwind.config.ts` |

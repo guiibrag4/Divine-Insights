@@ -60,4 +60,4 @@ Tudo isto está posto diante de nós, todos os dias, e todos os dias precisamos 
 
 ### Navegação
 
-👈 **[Voltar para o Capítulo 1](/posts/1joao-01-capitulo-1)**
+👈 **[Voltar para o Capítulo 1](/posts/1joao/1joao-01-capitulo-1)**
