@@ -21,7 +21,7 @@ export function SeriesCard({ item }: Props) {
   return (
     <Link
       href={buildPostHref(item.slug)}
-      className="group block rounded-xl overflow-hidden shadow-2xl hover:shadow-2xl transition-all duration-300 border-2 border-stone-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+      className="group block rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-neutral-300 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
     >
       <div className="relative h-48">
         <img
@@ -39,13 +39,13 @@ export function SeriesCard({ item }: Props) {
         </div>
       </div>
       <div className="p-6">
-        <h3 className="text-2xl font-bold mb-2 text-stone-900 dark:text-stone-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+        <h3 className="text-2xl font-bold mb-2 text-neutral-900 dark:text-neutral-50 group-hover:text-blue-600 dark:group-hover:text-blue-400">
           {item.title}
         </h3>
-        <p className="text-stone-600 dark:text-stone-400 mb-4 line-clamp-3">
+        <p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
           {item.description}
         </p>
-        <div className="flex items-center justify-between text-sm text-stone-500 dark:text-stone-500 pt-4 border-t border-stone-200 dark:border-slate-700">
+        <div className="flex items-center justify-between text-sm text-neutral-500 dark:text-neutral-500 pt-4 border-t border-neutral-300 dark:border-neutral-600">
           <span className="flex items-center gap-2">
             <BookOpen className="w-4 h-4" />
             {item.chaptersCount} capítulos

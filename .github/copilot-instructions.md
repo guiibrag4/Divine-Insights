@@ -1,7 +1,11 @@
 # Divine Insights - Copilot Instructions
 
+**Last Updated**: January 15, 2025 | **Version**: 2.0 (Post Design-Tokens Implementation)
+
 ## Project Overview
-Static blog for biblical studies built with **Next.js 15 App Router** + TypeScript + Tailwind CSS. Content is file-based (Markdown in `/_posts/`) with intelligent series navigation. The site emphasizes Portuguese localization, dark mode support, and minimal design. Deploy target is Vercel (static export).
+Static blog for biblical studies built with **Next.js 16 (Turbopack)** + TypeScript + Tailwind CSS v3.4.4. Content is file-based (Markdown in `/_posts/`) with intelligent multi-series navigation, professional design tokens, and full light/dark mode support. Deploy target is Vercel (SSG).
+
+## Architecture
 
 ## Architecture
 
@@ -19,12 +23,65 @@ Static blog for biblical studies built with **Next.js 15 App Router** + TypeScri
 - `generateStaticParams()` pre-builds routes at `next build` time for all markdown files
 - Slugs are **relative paths from `_posts/`** including directory prefix (e.g., `1joao/1joao-01-capitulo-1`)
 
+### URL Normalization - Slug Handling (NEW)
+**File**: `src/lib/slug.ts` - centralized href/slug generation
+
+**Key Functions**:
+```typescript
+buildPostHref(slug)  // Input: "1joao/1joao-01-..." → Output: "/posts/1joao/1joao-01-..."
+normalizeSlug(slug)  // Remove series prefix: "1joao/1joao-01-..." → "1joao-01-..."
+parsePostSlug(slug)  // Extract metadata: "1joao/1joao-01-..." → { series: "1joao", fileName: "1joao-01-..." }
+```
+
+**Why**: 8+ components generate post links. `buildPostHref()` is the **single source of truth** for URL formatting.
+
+**Import Pattern**:
+```tsx
+import { buildPostHref } from "@/lib/slug";
+
+// Use in all Link components:
+<Link href={buildPostHref(post.slug)}>...</Link>
+```
+
+**CRITICAL**: Use `buildPostHref()` in components:
+- `HomeHero` (primary CTA)
+- `SeriesCard` (series clickable)
+- `PostPreview` (post cards)
+- `LatestChapterCard` (featured post)
+- `ChapterNavigation` (prev/next)
+- `PostHeader` (breadcrumbs, if added)
+- `Avatar` (author profile, if added)
+- `HeroBento` (bento grid items, if added)
+
 ### Intelligent Navigation System
 - `src/lib/navigation.ts`: `getChapterNavigation(slug)` extracts series prefix via regex, sorts chapters, returns previous/next links
 - **Series pattern**: `{series}-{order}-{description}.md` where `{series}` is lowercase identifier extracted from first slug segment
 - Example: `1joao-01-capitulo-1.md` → matches `1joao` prefix → finds `1joao-00-indice.md` as index → provides prev/next chapter links
 - **Index detection**: Posts matching `*-00-indice` are treated as series landing pages (no chapter navigation)
 - This enables **multi-series** sites; navigation auto-configures based on file naming convention alone
+
+### Data Validation (NEW)
+**File**: `src/lib/validation.ts` - Zod schema for frontmatter validation
+
+**Behavior**:
+- Validates required frontmatter fields: `title`, `excerpt`, `date`, `author`, `coverImage`, `ogImage`
+- Runs at **build time** via `getPostBySlug()` - errors **interrupt build**
+- Prevents corrupted posts from reaching production
+
+**Asset Validation (NEW)**:
+- `src/lib/api.ts`: `ensureAssetExists()` validates `coverImage` and `author.picture` paths
+- Checks that image files exist in `/public/`
+- Allows external URLs (http://, https://)
+- **Fails build** if asset is missing → forces fix before deploy
+
+**Pattern**:
+```typescript
+// In api.ts
+const post = {
+  ...data,
+  ...ensureAssetExists(data) // Throws if images missing
+}
+```
 
 ### Component Architecture
 - **Server Components**: All `_components/` are Server Components for optimal performance; access filesystem directly via `getPostBySlug()` in `page.tsx`
@@ -39,15 +96,42 @@ Static blog for biblical studies built with **Next.js 15 App Router** + TypeScri
 
 ## Styling & Theming
 
+### Design System - Tokens (NEW)
+**File**: `src/lib/theme-constants.ts` - centralized color, gradient, and shadow tokens
+
+**Color Palette**:
+- **Neutral Scale** (50-900): Cream (#fafaf8) → Dark Brown (#1a1410)
+  - Light mode: 50-100 backgrounds, 600-900 text
+  - Dark mode: 700-800 backgrounds, 50-400 text
+- **Accent Blue & Purple**: 10-tone scales for brand colors
+- **Usage**: `className="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50"`
+
+**Shadows & Depth**:
+- `shadow-xs` through `shadow-2xl` - hierarchy from subtle to dramatic
+- `shadow-lg`: Cards, buttons, hover states
+- `shadow-2xl`: Hero sections, modals, elevated components
+
+**Gradients**:
+- `from-accent-blue-600 to-accent-purple-600`: Brand CTA buttons
+- `from-neutral-50 to-neutral-200`: Subtle backgrounds
+
+**All tokens exported from `theme-constants.ts`**:
+```typescript
+import { COLORS, GRADIENTS, THEME_DEFAULT } from "@/lib/theme-constants";
+// Use in components: className="bg-neutral-100 from-accent-blue-600"
+```
+
 ### Dark Mode (Critical Pattern)
 - **Strategy**: Tailwind `class` mode (not `media`) - `<html class="dark">` is toggled by `theme-switcher.tsx`
 - **Anti-FOUC**: `NoFOUCScript` component in `layout.tsx` applies dark class in `<head>` before paint to prevent light flash
 - **Persistence**: `localStorage.setItem("nextjs-blog-starter-theme", "dark"|"light")` in `theme-switcher.tsx`
-- **All dark variants use `dark:` prefix**: `text-stone-900 dark:text-stone-100`, `prose dark:prose-invert`, `bg-slate-50 dark:bg-slate-900`
+- **Default Theme**: Set in `THEME_DEFAULT` constant (`"dark"` or `"light"` or `"system"`)
+- **All dark variants use `dark:` prefix**: `text-neutral-900 dark:text-neutral-50`, `bg-neutral-100 dark:bg-neutral-800`
 
 ### Typography System
 - **Foundation**: `@tailwindcss/typography` plugin required - provides `.prose` class for markdown content styling
-- **Content wrapper**: `prose prose-lg prose-stone dark:prose-invert max-w-none w-full text-justify` on `PostBody`
+- **Content wrapper**: `prose prose-lg dark:prose-invert max-w-none w-full text-justify` on `PostBody`
+
   - `prose-lg` = larger font/spacing for readability
   - `prose-stone` = stone color scheme (headings, links, text)
   - `dark:prose-invert` = inverts colors for dark mode (light text on dark bg)

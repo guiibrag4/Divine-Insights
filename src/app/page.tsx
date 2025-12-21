@@ -21,6 +21,15 @@ export default function Index() {
       lastUpdate: "2025-12-20T09:00:00.000Z",
       status: "em-andamento" as const,
     },
+    {
+      title: "Tiago",
+      description: "A fé prática e viva. Descubra como aplicar a palavra de Deus no dia a dia através dos ensinamentos diretos e transformadores do apóstolo Tiago.",
+      slug: "tiago/tiago-00-indice",
+      coverImage: "/assets/blog/estudos/tiago-cover.png",
+      chaptersCount: 4,
+      lastUpdate: "2025-12-21T10:00:00.000Z",
+      status: "completo" as const,
+    },
   ];
 
   return (

@@ -1,5 +1,6 @@
 "use client";
 
+import { THEME_DEFAULT } from "@/lib/theme-constants";
 import styles from "./switch.module.css";
 import { memo, useEffect, useState } from "react";
 
@@ -61,7 +62,7 @@ const Switch = () => {
     () =>
       ((typeof localStorage !== "undefined" &&
         localStorage.getItem(STORAGE_KEY)) ??
-        "system") as ColorSchemePreference,
+        (THEME_DEFAULT as ColorSchemePreference)) as ColorSchemePreference,
   );
 
   useEffect(() => {

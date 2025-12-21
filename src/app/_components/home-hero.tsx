@@ -24,16 +24,13 @@ export function HomeHero({ primaryCtaSlug, indexSlug }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Bloco editorial */}
         <div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tighter text-stone-900 dark:text-stone-100">
-            Divine Insights
-          </h1>
-          <p className="mt-4 text-lg md:text-xl text-stone-600 dark:text-stone-400">
+          <p className="mt-4 text-lg md:text-xl text-neutral-600 dark:text-neutral-400">
             Estudos bíblicos profundos com aplicação prática e navegação inteligente.
           </p>
           <div className="mt-6 flex gap-3">
             <Link
               href={buildPostHref(primaryCtaSlug)}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-sm hover:shadow-md hover:from-blue-600 hover:to-indigo-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-accent-blue-600 to-accent-purple-600 text-white shadow-lg hover:shadow-xl hover:from-accent-blue-700 hover:to-accent-purple-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue-600"
             >
               <BookOpen className="w-5 h-5" />
               Começar a Ler
@@ -45,7 +42,7 @@ export function HomeHero({ primaryCtaSlug, indexSlug }: Props) {
 
         {/* Visual à direita (rotaciona entre 3 imagens de identidade) */}
         <div className="relative">
-          <div className="rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-800 dark:to-slate-700">
+          <div className="rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-accent-blue-100 to-accent-purple-100 dark:from-neutral-800 dark:to-neutral-700">
             <Image
               src={picked.src}
               alt={picked.alt}
