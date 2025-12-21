@@ -1,17 +1,17 @@
 import Footer from "@/app/_components/footer";
-import { CMS_NAME, HOME_OG_IMAGE_URL } from "@/lib/constants";
+import { HOME_OG_IMAGE_URL } from "@/lib/constants";
+import { NoFOUCScript } from "./_components/theme-switcher";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
-import { ThemeSwitcher } from "./_components/theme-switcher";
 
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `Next.js Blog Example with ${CMS_NAME}`,
-  description: `A statically generated blog example using Next.js and ${CMS_NAME}.`,
+  title: `Divine Insights - Estudos Bíblicos Profundos`,
+  description: `Explore estudos bíblicos detalhados com análises profundas das Escrituras Sagradas. Fortaleça sua caminhada espiritual com conteúdo de qualidade.`,
   openGraph: {
     images: [HOME_OG_IMAGE_URL],
   },
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -58,9 +58,14 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body
-        className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
+        className={cn(inter.className, "bg-white dark:bg-slate-900 dark:text-slate-400")} suppressHydrationWarning
       >
-        <ThemeSwitcher />
+        {/* Inject theme script early to avoid FOUC and ensure updateDOM exists */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(${NoFOUCScript.toString()})("nextjs-blog-starter-theme")`,
+          }}
+        />
         <div className="min-h-screen">{children}</div>
         <Footer />
       </body>

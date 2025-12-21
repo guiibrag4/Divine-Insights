@@ -66,7 +66,20 @@ const Switch = () => {
 
   useEffect(() => {
     // store global functions to local variables to avoid any interference
-    updateDOM = window.updateDOM;
+    // in case the script hasn't run yet, guard and set a fallback
+    updateDOM = typeof window.updateDOM === "function" ? window.updateDOM : () => {
+      try {
+        const DARK = "dark" as const;
+        const SYSTEM = "system" as const;
+        const media = matchMedia(`(prefers-color-scheme: ${DARK})`);
+        const systemMode = media.matches ? DARK : "light";
+        const resolvedMode = mode === SYSTEM ? systemMode : mode;
+        const classList = document.documentElement.classList;
+        if (resolvedMode === DARK) classList.add(DARK);
+        else classList.remove(DARK);
+        document.documentElement.setAttribute("data-mode", mode);
+      } catch {}
+    };
     /** Sync the tabs */
     addEventListener("storage", (e: StorageEvent): void => {
       e.key === STORAGE_KEY && setMode(e.newValue as ColorSchemePreference);
@@ -75,7 +88,14 @@ const Switch = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, mode);
-    updateDOM();
+    try {
+      updateDOM();
+    } catch {
+      // if something went wrong, try calling the global directly
+      if (typeof window.updateDOM === "function") {
+        window.updateDOM();
+      }
+    }
   }, [mode]);
 
   /** toggle mode */

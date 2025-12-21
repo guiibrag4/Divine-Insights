@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+  --foreground-rgb: 28, 25, 23; /* Stone 900 */
+  --background-start-rgb: 250, 250, 249; /* Stone 50 */
+  --background-end-rgb: 250, 250, 249;
+}
+
+/* Acessibilidade: foco visível consistente para teclado */
+a:focus-visible,
+button:focus-visible {
+  @apply outline-none ring-2 ring-blue-600 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Assegura sombras visíveis mesmo em modo print */
+@media print {
+  .shadow-xl,
+  .shadow-lg,
+  .shadow-md,
+  .shadow-sm {
+    box-shadow: none !important;
+  }
+}
