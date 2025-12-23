@@ -59,7 +59,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
       <body
-        className={cn(inter.className, "bg-white dark:bg-slate-900 dark:text-slate-400")} suppressHydrationWarning
+        className={cn(inter.className, "bg-neutral-50 text-neutral-900")} suppressHydrationWarning
       >
         {/* Inject theme script early to avoid FOUC and ensure updateDOM exists */}
         <script

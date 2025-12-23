@@ -8,17 +8,23 @@ declare global {
   var updateDOM: () => void;
 }
 
-type ColorSchemePreference = "system" | "dark" | "light";
+type ColorSchemePreference = "system" | "dark" | "light" | "darkblue";
 
 const STORAGE_KEY = "nextjs-blog-starter-theme";
-const modes: ColorSchemePreference[] = ["system", "dark", "light"];
+// Ordem do ciclo: Light -> Dark -> DarkBlue
+const modes: ColorSchemePreference[] = ["light", "dark", "darkblue"];
+
+const sanitizeMode = (value: string | null): ColorSchemePreference => {
+  if (value === "dark" || value === "light" || value === "darkblue") return value;
+  return "light";
+};
 
 /** to reuse updateDOM function defined inside injected script */
 
 /** function to be injected in script tag for avoiding FOUC (Flash of Unstyled Content) */
 export const NoFOUCScript = (storageKey: string) => {
   /* can not use outside constants or function as this script will be injected in a different context */
-  const [SYSTEM, DARK, LIGHT] = ["system", "dark", "light"];
+  const [SYSTEM, DARK, LIGHT, DARKBLUE] = ["system", "dark", "light", "darkblue"];
 
   /** Modify transition globally to avoid patched transitions */
   const modifyTransition = () => {
@@ -40,12 +46,25 @@ export const NoFOUCScript = (storageKey: string) => {
   window.updateDOM = () => {
     const restoreTransitions = modifyTransition();
     const mode = localStorage.getItem(storageKey) ?? SYSTEM;
+    const safeMode = mode === SYSTEM ? SYSTEM : (mode === DARK || mode === LIGHT || mode === DARKBLUE ? mode : LIGHT);
     const systemMode = media.matches ? DARK : LIGHT;
-    const resolvedMode = mode === SYSTEM ? systemMode : mode;
+    const resolvedMode = safeMode === SYSTEM ? systemMode : safeMode;
     const classList = document.documentElement.classList;
-    if (resolvedMode === DARK) classList.add(DARK);
-    else classList.remove(DARK);
-    document.documentElement.setAttribute("data-mode", mode);
+    
+    // Remove all theme classes
+    classList.remove(DARK);
+    classList.remove(DARKBLUE);
+    
+    // Add appropriate theme class
+    if (resolvedMode === DARK) {
+      classList.add(DARK);
+    } else if (resolvedMode === DARKBLUE) {
+      // Para o tema darkblue, habilite as variantes `dark:` também
+      classList.add(DARK);
+      classList.add(DARKBLUE);
+    }
+    
+    document.documentElement.setAttribute("data-mode", safeMode);
     restoreTransitions();
   };
   window.updateDOM();
@@ -60,9 +79,10 @@ let updateDOM: () => void;
 const Switch = () => {
   const [mode, setMode] = useState<ColorSchemePreference>(
     () =>
-      ((typeof localStorage !== "undefined" &&
-        localStorage.getItem(STORAGE_KEY)) ??
-        (THEME_DEFAULT as ColorSchemePreference)) as ColorSchemePreference,
+      sanitizeMode(
+        (typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null) ??
+          (THEME_DEFAULT as ColorSchemePreference),
+      ) as ColorSchemePreference,
   );
 
   useEffect(() => {
@@ -71,14 +91,28 @@ const Switch = () => {
     updateDOM = typeof window.updateDOM === "function" ? window.updateDOM : () => {
       try {
         const DARK = "dark" as const;
+        const DARKBLUE = "darkblue" as const;
         const SYSTEM = "system" as const;
         const media = matchMedia(`(prefers-color-scheme: ${DARK})`);
         const systemMode = media.matches ? DARK : "light";
-        const resolvedMode = mode === SYSTEM ? systemMode : mode;
+        const safeMode = mode === SYSTEM ? SYSTEM : (mode === DARK || mode === "light" || mode === DARKBLUE ? mode : "light");
+        const resolvedMode = safeMode === SYSTEM ? systemMode : safeMode;
         const classList = document.documentElement.classList;
-        if (resolvedMode === DARK) classList.add(DARK);
-        else classList.remove(DARK);
-        document.documentElement.setAttribute("data-mode", mode);
+        
+        // Remove all theme classes
+        classList.remove(DARK);
+        classList.remove(DARKBLUE);
+        
+        // Add appropriate theme class
+        if (resolvedMode === DARK) {
+          classList.add(DARK);
+        } else if (resolvedMode === DARKBLUE) {
+          // Para o tema darkblue, habilite as variantes `dark:` também
+          classList.add(DARK);
+          classList.add(DARKBLUE);
+        }
+        
+        document.documentElement.setAttribute("data-mode", safeMode);
       } catch {}
     };
     /** Sync the tabs */
