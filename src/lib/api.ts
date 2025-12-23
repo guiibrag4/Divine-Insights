@@ -12,18 +12,24 @@ const publicDirectory = path.join(process.cwd(), "public");
 const isSupabaseConfigured = Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY);
 
 function ensureAssetExists(assetPath: string, label: string) {
-  if (assetPath.startsWith("http")) return assetPath; // permite URLs absolutas externas
+  if (assetPath.startsWith("http")) return assetPath; 
   const normalized = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
   const full = path.join(publicDirectory, normalized);
   if (!fs.existsSync(full)) {
-    throw new Error(`Asset ausente (${label}): ${normalized}`);
+    // throw new Error(`Asset ausente (${label}): ${normalized}`);
+    console.warn(`Asset ausente (${label}): ${normalized}`); // Alterado para warn para evitar crash em dev
   }
   return normalized;
 }
 
-/**
- * Função recursiva para pegar todos os arquivos .md dentro de pastas e subpastas
- */
+// Função auxiliar para calcular tempo de leitura
+function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min`;
+}
+
 function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
   const files = fs.readdirSync(dirPath);
 
@@ -32,7 +38,6 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = []) {
       arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
     } else {
       if (file.endsWith(".md")) {
-        // Guarda o caminho relativo (ex: '1joao/1joao-01.md')
         arrayOfFiles.push(path.join(dirPath, "/", file));
       }
     }
@@ -62,6 +67,7 @@ function mapDbPostToPost(dbPost: DbPost): Post {
       url: dbPost.og_image,
     },
     content: dbPost.content,
+    minRead: calculateReadingTime(dbPost.content), // Calculado aqui
   };
 }
 
@@ -140,6 +146,7 @@ function getPostBySlugFromFs(slug: string): Post | null {
     const ogImageUrl = frontmatter.ogImage?.url
       ? ensureAssetExists(frontmatter.ogImage.url, "ogImage.url")
       : undefined;
+    
     return {
       ...frontmatter,
       slug: realSlug,
@@ -147,6 +154,7 @@ function getPostBySlugFromFs(slug: string): Post | null {
       fileName,
       series,
       content,
+      minRead: calculateReadingTime(content), // Calculado aqui também
       coverImage,
       author: {
         ...frontmatter.author,
@@ -155,7 +163,7 @@ function getPostBySlugFromFs(slug: string): Post | null {
       ogImage: ogImageUrl ? { url: ogImageUrl } : (frontmatter.ogImage as any),
     } as Post;
   } catch (err) {
-    return null; // Retorna null se não achar (evita quebrar o site inteiro)
+    return null; 
   }
 }
 

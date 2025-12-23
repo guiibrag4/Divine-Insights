@@ -51,7 +51,9 @@ const VERSES = [
 export async function HeroBento() {
   const posts = await getAllPosts();
   const latest = posts[0];
-  const verse = VERSES[new Date().getDate() % VERSES.length];
+  // Evitar hidratação divergente: derive o índice de um dado estável (data do último post)
+  const stableDate = latest ? new Date(latest.date) : new Date(0);
+  const verse = VERSES[stableDate.getUTCDate() % VERSES.length];
 
   if (!latest) {
     return null;

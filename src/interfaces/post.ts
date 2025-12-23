@@ -14,5 +14,6 @@ export type Post = {
     url: string;
   };
   content: string;
+  minRead: string; 
   preview?: boolean;
 };

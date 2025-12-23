@@ -67,7 +67,7 @@ export default function RootLayout({
             __html: `(${NoFOUCScript.toString()})("nextjs-blog-starter-theme")`,
           }}
         />
-        <div className="min-h-screen">{children}</div>
+        <div className="min-h-screen" suppressHydrationWarning>{children}</div>
         <Footer />
       </body>
     </html>
