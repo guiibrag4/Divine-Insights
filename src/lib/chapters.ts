@@ -43,6 +43,7 @@ export async function getSeriesChapters(
         url: row.og_image,
       },
       content: row.content,
+      minRead: row.min_read || "5 min",
     })) || []
   );
 }
