@@ -14,7 +14,7 @@
   transition: all 0.3s ease-in-out 0s !important;
 }
 
-[data-mode="light"] .switch::after {
+[data-mode="system"] .switch::after {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -25,47 +25,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  content: "☀️";
+  content: "A";
 }
 
 [data-mode="light"] .switch {
-  box-shadow: 0 0 50px 10px #fbbf24;
-  background-color: #fbbf24;
-  border: 1px solid #f59e0b;
-}
-
-[data-mode="darkblue"] .switch::after {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  font-weight: 600;
-  font-size: calc(var(--size) / 2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  content: "🌙";
-}
-
-[data-mode="darkblue"] .switch {
-  box-shadow: 0 0 30px 5px #3b82f6;
-  background-color: #1e40af;
-  border: 1px solid #3b82f6;
-}
-
-[data-mode="dark"] .switch::after {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  font-weight: 600;
-  font-size: calc(var(--size) / 2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  content: "🌑";
+  box-shadow: 0 0 50px 10px yellow;
+  background-color: yellow;
+  border: 1px solid orangered;
 }
 
 [data-mode="dark"] .switch {

@@ -1,7 +1,9 @@
-import { BookOpen } from "lucide-react";
+"use client";
+import { BookOpen, SunMedium, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { heroImages } from "@/lib/brand";
+import { useMemo } from "react";
 import { buildPostHref } from "@/lib/slug";
 
 type Props = {
@@ -10,10 +12,13 @@ type Props = {
 };
 
 export function HomeHero({ primaryCtaSlug, indexSlug }: Props) {
-  // Seleção determinística baseada no slug para evitar qualquer mismatch
-  const sum = Array.from(primaryCtaSlug).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  const i = sum % heroImages.length;
-  const picked = heroImages[i];
+  const picked = useMemo(() => {
+    // Use deterministic selection based on date to avoid hydration mismatch
+    // Same image all day, rotates next day
+    const today = new Date().getDate();
+    const i = today % heroImages.length;
+    return heroImages[i];
+  }, []);
   return (
     <section className="mt-10 md:mt-14 mb-8 md:mb-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">

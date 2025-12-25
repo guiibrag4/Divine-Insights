@@ -63,11 +63,11 @@ export async function HeroBento() {
     <section className="mt-10 mb-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Tile Título + Ilustração Bíblica */}
-        <div className="theme-card overflow-hidden rounded-2xl p-6 md:p-8 bg-white dark:bg-slate-800 border border-neutral-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-shadow">
+        <div className="overflow-hidden rounded-2xl p-6 md:p-8 bg-white/70 dark:bg-slate-800 border border-stone-200 dark:border-slate-700 shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             {/* Ilustração à esquerda */}
             <div className="md:w-2/5 w-full">
-              <div className="rounded-xl overflow-hidden shadow-md ring-1 ring-neutral-200 dark:ring-slate-700/70">
+              <div className="rounded-xl overflow-hidden shadow-md ring-1 ring-stone-200/70 dark:ring-slate-700/70">
                 <img
                   src="/assets/blog/estudos/1joao-cover.png"
                   alt="Ilustração bíblica"
@@ -78,20 +78,20 @@ export async function HeroBento() {
 
             {/* Título e badges à direita */}
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-neutral-900 dark:text-stone-100 mb-3">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-stone-900 dark:text-stone-100 mb-3">
                 Divine Insights
               </h1>
-              <p className="text-neutral-700 dark:text-stone-300 text-lg max-w-lg">
+              <p className="text-stone-600 dark:text-stone-400 text-lg max-w-lg">
                 Estudos bíblicos profundos para fortalecer sua caminhada espiritual.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-neutral-100 dark:bg-slate-700 text-neutral-800 dark:text-stone-300 border border-neutral-200 dark:border-slate-600">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-slate-600">
                   <IconBook className="w-4 h-4" /> Estudo Expositivo
                 </span>
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-neutral-100 dark:bg-slate-700 text-neutral-800 dark:text-stone-300 border border-neutral-200 dark:border-slate-600">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-slate-600">
                   <IconLampHeart className="w-4 h-4" /> Aplicação Prática
                 </span>
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-neutral-100 dark:bg-slate-700 text-neutral-800 dark:text-stone-300 border border-neutral-200 dark:border-slate-600">
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-slate-600">
                   <IconCompass className="w-4 h-4" /> Navegação por Capítulos
                 </span>
               </div>
@@ -102,7 +102,7 @@ export async function HeroBento() {
         {/* Tile Último Estudo */}
         <Link
           href={buildPostHref(latest.slug)}
-          className="theme-card group overflow-hidden rounded-2xl border border-neutral-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all"
+          className="group overflow-hidden rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-lg transition-all"
         >
           <div className="relative h-40 md:h-48">
             <img
@@ -110,20 +110,20 @@ export async function HeroBento() {
               alt={latest.title}
               className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
             />
-            <span className="absolute top-3 left-3 px-2 py-1 text-xs rounded-full bg-neutral-900 text-white shadow">Último estudo</span>
+            <span className="absolute top-3 left-3 px-2 py-1 text-xs rounded-full bg-stone-900 text-white shadow">Último estudo</span>
           </div>
           <div className="p-6">
-            <h3 className="text-xl font-semibold text-neutral-900 dark:text-stone-100 mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <h3 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2 line-clamp-2">
               {latest.title}
             </h3>
-            <p className="text-sm text-neutral-700 dark:text-stone-300 mb-4 line-clamp-2">
+            <p className="text-sm text-stone-600 dark:text-stone-400 mb-4 line-clamp-2">
               {latest.excerpt}
             </p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-neutral-500 dark:text-stone-400">
+              <span className="text-stone-500 dark:text-stone-500">
                 <DateFormatter dateString={latest.date} />
               </span>
-              <IconArrowRight className="w-5 h-5 text-neutral-700 dark:text-stone-300 group-hover:translate-x-1 transition-transform" />
+              <IconArrowRight className="w-5 h-5 text-stone-700 dark:text-stone-300 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
         </Link>
@@ -131,7 +131,7 @@ export async function HeroBento() {
         {/* Tile Explorar Séries */}
         <Link
           href="#series"
-          className="overflow-hidden rounded-2xl border border-neutral-200 dark:border-slate-700 bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all"
+          className="overflow-hidden rounded-2xl border border-stone-200 dark:border-slate-700 bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-sm hover:shadow-lg transition-all"
         >
           <div className="p-6 md:p-8">
             <div className="flex items-center gap-3 mb-3">
@@ -147,11 +147,11 @@ export async function HeroBento() {
         </Link>
 
         {/* Tile Versículo do Dia */}
-        <div className="theme-card overflow-hidden rounded-2xl border border-neutral-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-shadow">
+        <div className="overflow-hidden rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
           <div className="p-6 md:p-8">
-            <h3 className="text-2xl font-semibold text-neutral-900 dark:text-stone-100 mb-2">Versículo do Dia</h3>
-            <p className="text-neutral-800 dark:text-stone-300 leading-relaxed">"{verse.text}"</p>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-stone-400">{verse.ref}</p>
+            <h3 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">Versículo do Dia</h3>
+            <p className="text-stone-700 dark:text-stone-300 leading-relaxed">“{verse.text}”</p>
+            <p className="mt-3 text-sm text-stone-500 dark:text-stone-500">{verse.ref}</p>
           </div>
         </div>
       </div>

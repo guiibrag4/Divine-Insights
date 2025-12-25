@@ -3,7 +3,7 @@
 **Last Updated**: January 15, 2025 | **Version**: 2.0 (Post Design-Tokens Implementation)
 
 ## Project Overview
-Static-first blog for biblical studies built with **Next.js 16 (Turbopack)** + TypeScript + Tailwind CSS v3.4.4. Content source is **Supabase (if configured)** with filesystem `_posts/` fallback. Intelligent multi-series navigation, professional design tokens, and full light/dark mode. Deploy target is Vercel using **ISR**.
+Static blog for biblical studies built with **Next.js 16 (Turbopack)** + TypeScript + Tailwind CSS v3.4.4. Content is file-based (Markdown in `/_posts/`) with intelligent multi-series navigation, professional design tokens, and full light/dark mode support. Deploy target is Vercel (SSG).
 
 ## Architecture
 
@@ -17,11 +17,11 @@ Static-first blog for biblical studies built with **Next.js 16 (Turbopack)** + T
 
 **Why this matters**: The `gray-matter` parsing extracts frontmatter from markdown file **content** field - don't modify post object shape without updating all usages.
 
-### Routing & Rendering
-- `/` → `src/app/page.tsx` - Homepage lists series via `getAllSeries()` (Supabase if `SUPABASE_*` present, else fallback static list)
+### Routing (File-based CMS → Static Routes)
+- `/` → `src/app/page.tsx` - Homepage lists all series from `studySeries` array (hardcoded study metadata)
 - `/posts/[...slug]` → `src/app/posts/[...slug]/page.tsx` - Handles nested paths like `posts/1joao/1joao-01-capitulo-1`
-- ISR: `revalidate = 60` and `dynamicParams = true` for posts; on-demand regeneration after admin updates
-- Slugs are **relative paths** from Supabase or `_posts/` including directory prefix (e.g., `1joao/1joao-01-capitulo-1`)
+- `generateStaticParams()` pre-builds routes at `next build` time for all markdown files
+- Slugs are **relative paths from `_posts/`** including directory prefix (e.g., `1joao/1joao-01-capitulo-1`)
 
 ### URL Normalization - Slug Handling (NEW)
 **File**: `src/lib/slug.ts` - centralized href/slug generation
@@ -52,8 +52,6 @@ import { buildPostHref } from "@/lib/slug";
 - `PostHeader` (breadcrumbs, if added)
 - `Avatar` (author profile, if added)
 - `HeroBento` (bento grid items, if added)
-- `DynamicSeriesIndex` (índice dinâmico por série)
-- `SeriesSidebar` (links da série e capítulo atual)
 
 ### Intelligent Navigation System
 - `src/lib/navigation.ts`: `getChapterNavigation(slug)` extracts series prefix via regex, sorts chapters, returns previous/next links
@@ -86,10 +84,10 @@ const post = {
 ```
 
 ### Component Architecture
-- **Server Components**: `_components/` são Server Components por padrão. Dados vêm de `getPostBySlug()`/`getAllPosts()` e `getAllSeries()` (Supabase quando configurado; fallback FS).
-- **Client Components**: Apenas `theme-switcher.tsx` é `'use client'` para interatividade.
-- **Shared UI**: `Container`, `Header`, `Footer`, `CoverImage` fornecem layout consistente.
-- **Post-specific**: `PostBody` (HTML), `PostHeader`, `PostPreview`, `ChapterNavigation`, `SeriesSidebar`, `DynamicSeriesIndex`.
+- **Server Components**: All `_components/` are Server Components for optimal performance; access filesystem directly via `getPostBySlug()` in `page.tsx`
+- **Client Components**: Only `theme-switcher.tsx` (dark mode toggle, localStorage) is marked `'use client'` for interactivity
+- **Shared UI**: `Container`, `Header`, `Footer`, `CoverImage` provide consistent layout across pages
+- **Post-specific**: `PostBody` (renders HTML), `PostHeader` (title/date), `PostPreview` (card in grids), `ChapterNavigation` (prev/next buttons)
 
 ### Type System
 - `src/interfaces/post.ts`: `Post` extends frontmatter fields + `slug`, `content` (raw markdown, not HTML)
@@ -208,19 +206,9 @@ Slugs in this array are the series prefixes used by `getChapterNavigation()` to 
 ## Development Workflow
 
 ### Build & Runtime
-- **Dev**: `npm run dev` inicia Next.js com **Turbopack**.
-- **Prod**: `npm run build` + `npm start` com **ISR** (`revalidate=60`) nas páginas; conteúdo pode vir do Supabase.
-- **Admin**: `/admin` é `force-dynamic` e usa Server Actions para upsert em Supabase + `revalidatePath`.
-
-### Supabase Integration (Opcional, Preferencial)
-- **Env vars**: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`.
-- **Clientes**: `getSupabaseAnonClient()` para leitura; `getSupabaseServiceClient()` para writes.
-- **Series**: `src/lib/series.ts` lê do Supabase se configurado; caso contrário, usa `fallbackSeries`.
-- **Posts**: `src/lib/api.ts` prioriza Supabase (`getAllPostsFromSupabase`) e faz fallback para `_posts/`.
-- **Admin Actions**: `src/app/admin/actions.ts` (Zod valida, upsert em `series`/`posts`, revalida `/` e páginas de post).
-- **Scripts úteis**:
-  - Migrar FS → Supabase: `npx tsx scripts/migrate-to-supabase.ts`
-  - Corrigir contagem/status séries: `npx tsx scripts/fix-series-counts.ts`
+- **Dev**: `npm run dev` launches Next.js with **Turbopack** (Next.js 15 default, much faster builds)
+- **Production**: `npm run build` pre-renders all routes via `generateStaticParams()` + `generateMetadata()`, then `npm start` serves static files
+- **Static Export**: Site is fully static - no server-side computation after build (important for Vercel)
 
 ### Adding Features - By Feature Type
 
@@ -255,13 +243,15 @@ This sets permissions for the current terminal session only.
 ## Deployment & Performance
 
 ### Vercel Optimization
-- **ISR ativo**: `revalidate=60` para `/` e posts; conteúdo atualizado via Admin revalida páginas.
-- **Admin dinâmico**: `/admin` roda no server (Server Actions), requer envs Supabase.
-- **Imagens**: `next/image` para otimização automática.
+- **Static Export**: All pages pre-rendered at `next build` time via `generateStaticParams()` 
+- **Zero Runtime**: No server-side logic after build; Vercel serves HTML/CSS/JS directly (Edge Network fast)
+- **Image optimization**: Use `next/image` for responsive images (auto-optimized by Vercel)
+- **Incremental Static Regeneration**: Not used (static-only approach); requires full rebuild for content changes
 
 ### Key Deployment Settings
-- Deploy a partir de `main` no GitHub.
-- Variáveis Supabase devem estar presentes no Vercel para usar DB; sem elas, app funciona com fallback `_posts/`.
+- Deploy from `main` branch on GitHub
+- Vercel automatically runs `npm run build` → serves `out/` directory
+- Environment: Node.js default (no special env vars needed)
 
 ## Portuguese Localization
 
@@ -276,16 +266,10 @@ This sets permissions for the current terminal session only.
 | Pitfall | Why It Breaks | Fix |
 |---------|---------------|-----|
 | Removing `remark-gfm` from deps | Markdown tables, strikethrough, tasklists fail silently | Keep it in `package.json` dependencies + `markdownToHtml.ts` |
-| Post slug mismatch (e.g., `1joao-01-capitulo-1.md` vs `1joao-cap-1`) | `getPostBySlug()` faz matching exato no FS ou Supabase | Mantenha padrão `{series}/{fileName}` sem `.md` |
+| Post slug mismatch (e.g., `1joao-01-capitulo-1.md` but access as `1joao-cap-1`) | `getPostBySlug()` does exact filesystem path matching | Slug in URL must match filename exactly (minus `.md`) |
 | Series prefix inconsistency (e.g., file is `1joao-01-*.md` but array has `1-joao`) | `getChapterNavigation()` regex won't extract correct series prefix | File prefix must match `studySeries.slug` exactly |
-| Missing `-00-indice` file in series folder | Navegação retorna `null`; índice dinâmico pode falhar | Crie o índice por série com sufixo `-00-indice` |
+| Missing `-00-indice` file in series folder | Navigation returns `null`; chapter nav doesn't appear | Create index file for every series (name must end with `-00-indice`) |
 | `<html class="dark">` not in DOM | Dark mode class never applied; toggles don't work | Ensure `NoFOUCScript` runs first; `theme-switcher.tsx` adds class to `document.documentElement` |
 | Image paths in markdown as relative (`../assets/...`) | Images broken on deployed site | Use absolute paths from `/public/` root: `/assets/blog/estudos/image.png` |
-| Not awaiting `props.params` in Server Component | Type error; build fails | Sempre `const params = await props.params` em `posts/[...slug]/page.tsx` |
-| Supabase env ausente | Admin falha e conteúdo volta ao fallback | Configure `SUPABASE_*` ou opere apenas via `_posts/` |
-| Não usar `buildPostHref()` | Links quebrados (variação de separadores/slug) | Normalize slugs e use `buildPostHref(slug)` em Links |
-
-—
-
-Se algo acima estiver impreciso ou faltando (especialmente fluxos do Admin e Supabase), me diga e ajusto rapidamente com exemplos diretos dos arquivos.
+| Not awaiting `props.params` in Server Component | Type error; build fails | Always `const params = await props.params` in post page |
 | Missing `@tailwindcss/typography` plugin | Prose styling doesn't apply; unstyled markdown | Install: `npm install -D @tailwindcss/typography` + add to `plugins` in `tailwind.config.ts` |

@@ -9,55 +9,6 @@
   --background-end-rgb: 250, 250, 249;
 }
 
-/* Overrides de background e texto por tema */
-html.dark,
-html.dark body,
-html.dark #__next,
-html.dark .min-h-screen {
-  background-color: #0f1116;
-  background-image: none;
-  color: #e5e7eb;
-}
-
-html.darkblue body {
-  background-color: #0f1116;
-  color: #e5e7eb;
-}
-
-/* Tema Dark Blue (azul escuro) */
-html.darkblue {
-  background-color: #0f1116;
-  background-image: none;
-  color: #e5e7eb;
-  color-scheme: dark;
-}
-
-html.darkblue body,
-html.darkblue #__next,
-html.darkblue .min-h-screen {
-  background-color: #0f1116;
-  background-image: none;
-}
-
-/* Superfícies de cards com override por tema */
-.theme-card {
-  background: #ffffff;
-  border-color: #e5e7eb;
-  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.25);
-}
-
-.dark .theme-card {
-  background: #0f1116;
-  border-color: #1f2937;
-  box-shadow: 0 12px 36px -16px rgba(0, 0, 0, 0.6);
-}
-
-.darkblue .theme-card {
-  background: #0f1116;
-  border-color: #1f2937;
-  box-shadow: 0 12px 36px -16px rgba(0, 0, 0, 0.6);
-}
-
 /* Acessibilidade: foco visível consistente para teclado */
 a:focus-visible,
 button:focus-visible {
