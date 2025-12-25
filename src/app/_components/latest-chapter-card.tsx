@@ -12,7 +12,7 @@ export function LatestChapterCard({ post }: { post: Post }) {
       </h2>
       <Link
         href={buildPostHref(post.slug)}
-        className="group block rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow border border-neutral-300 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+        className="group block rounded-2xl overflow-hidden shadow-[0_10px_40px_rgb(0,0,0,0.15)] hover:shadow-[0_25px_70px_rgb(0,0,0,0.3)] transition-[transform,box-shadow] duration-300 border border-[#D4D4D4] dark:border-neutral-600 bg-white dark:bg-neutral-800 ring-1 ring-black/5 dark:ring-white/5 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
       >
         <div className="grid grid-cols-1 md:grid-cols-3">
           <div className="md:col-span-2 p-6 md:p-8">

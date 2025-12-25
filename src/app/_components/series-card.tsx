@@ -12,7 +12,7 @@ export function SeriesCard({ item }: Props) {
   return (
     <Link
       href={buildPostHref(item.slug)}
-      className="group block rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-neutral-300 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+      className="group block rounded-xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.25)] transition-[transform,box-shadow] duration-300 border border-[#D4D4D4] dark:border-neutral-600 bg-white dark:bg-neutral-800 ring-1 ring-black/5 dark:ring-white/5 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
     >
       <div className="relative h-48">
         <img

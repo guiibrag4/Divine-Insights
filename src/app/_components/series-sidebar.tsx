@@ -31,16 +31,16 @@ export async function SeriesSidebar({ currentSlug, seriesSlug, postTitle }: Seri
         {/* --- REMOVIDO: Cabeçalho da Série redundante --- */}
 
         {/* Lista de Capítulos */}
-        <nav className="rounded-2xl border border-stone-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 backdrop-blur-sm shadow-lg overflow-hidden">
-          <div className="p-4 border-b border-stone-200 dark:border-slate-700">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 flex items-center gap-2">
+        <nav className="rounded-2xl border border-[#D4D4D4] dark:border-[#262626] bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] ring-1 ring-black/5 dark:ring-white/5 overflow-hidden">
+          <div className="p-4 border-b border-[#D4D4D4] dark:border-[#262626]">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#1A1A1A] dark:text-[#F2F2F2] flex items-center gap-2">
               <span>📖</span>
               <span>Capítulos ({chapters.length})</span>
             </h3>
           </div>
           
-          <div className="max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-stone-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
-            <ul className="divide-y divide-stone-200 dark:divide-slate-700">
+          <div className="max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-600 scrollbar-track-transparent">
+            <ul className="divide-y divide-[#D4D4D4] dark:divide-[#262626]">
               {chapters.map((chapter, index) => {
                 const chapterMatch = chapter.slug.match(/-(\d+)-/);
                 const chapterNumber = chapterMatch ? parseInt(chapterMatch[1], 10) : index + 1;
@@ -56,7 +56,7 @@ export async function SeriesSidebar({ currentSlug, seriesSlug, postTitle }: Seri
                         ${
                           isCurrentChapter
                             ? "bg-blue-50 dark:bg-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-400"
-                            : "hover:bg-stone-50 dark:hover:bg-slate-800/60 border-l-4 border-l-transparent"
+                            : "hover:bg-neutral-100 dark:hover:bg-neutral-800 border-l-4 border-l-transparent"
                         }
                       `}
                     >
@@ -69,7 +69,7 @@ export async function SeriesSidebar({ currentSlug, seriesSlug, postTitle }: Seri
                                 ? "bg-blue-600 dark:bg-blue-500 text-white shadow-md"
                                 : isIndex
                                 ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300"
-                                : "bg-stone-100 dark:bg-slate-700 text-stone-600 dark:text-stone-300 group-hover:bg-stone-200 dark:group-hover:bg-slate-600"
+                                : "bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 group-hover:bg-neutral-200 dark:group-hover:bg-neutral-600"
                             }
                           `}
                         >
@@ -83,7 +83,7 @@ export async function SeriesSidebar({ currentSlug, seriesSlug, postTitle }: Seri
                               ${
                                 isCurrentChapter
                                   ? "text-blue-900 dark:text-blue-100"
-                                  : "text-stone-800 dark:text-stone-200 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+                                  : "text-[#1A1A1A] dark:text-[#F2F2F2] group-hover:text-blue-600 dark:group-hover:text-blue-400"
                               }
                             `}
                           >

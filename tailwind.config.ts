@@ -11,17 +11,17 @@ const config: Config = {
     extend: {
       // === Paleta de Cores Profissional ===
       colors: {
-        // Neutros: stone base (branco creme + cinza chumbo)
-        "neutral-50": "#fafaf8", // branco creme muito claro
-        "neutral-100": "#f3f0ed", // creme claro
-        "neutral-200": "#e8e3de", // creme
-        "neutral-300": "#d4ccc4", // cinza chumbo muito claro
-        "neutral-400": "#a89e92",
-        "neutral-500": "#8b8178",
-        "neutral-600": "#6b5f54",
-        "neutral-700": "#4a3f38",
-        "neutral-800": "#2d2622",
-        "neutral-900": "#1a1410",
+        // Neutros: Clean Light & Dark - grafite profundo sem tons azulados
+        "neutral-50": "#F5F5F5", // bg-page light
+        "neutral-100": "#FFFFFF", // bg-card light
+        "neutral-200": "#D4D4D4", // border light
+        "neutral-300": "#CCCCCC",
+        "neutral-400": "#999999",
+        "neutral-500": "#666666", // text-alt light
+        "neutral-600": "#4D4D4D",
+        "neutral-700": "#333333",
+        "neutral-800": "#1A1A1A", // bg-card dark
+        "neutral-900": "#0D0D0D", // bg-page dark
 
         // Acentos: blue + purple (divinos)
         "accent-blue": {

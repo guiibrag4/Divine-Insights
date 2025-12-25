@@ -8,11 +8,11 @@ type Props = {
 export function AboutSection({ title, description }: Props) {
   return (
     <section className="mb-20 max-w-5xl mx-auto px-5">
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 md:p-12 shadow-lg border border-stone-200 dark:border-slate-600">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-stone-900 dark:text-stone-100">
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-800 rounded-2xl p-8 md:p-12 shadow-[0_10px_40px_rgb(0,0,0,0.1)] ring-1 ring-black/5 dark:ring-white/5 border border-[#D4D4D4] dark:border-[#262626]">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#1A1A1A] dark:text-[#F2F2F2]">
           {title}
         </h2>
-        <p className="text-lg text-stone-700 dark:text-stone-300 leading-relaxed mb-6">
+        <p className="text-lg text-[#1A1A1A] dark:text-[#F2F2F2] leading-relaxed mb-6">
           {description}
         </p>
         
@@ -22,8 +22,8 @@ export function AboutSection({ title, description }: Props) {
               <span className="text-2xl">📖</span>
             </div>
             <div>
-              <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-1">Estudos Profundos</h3>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Análise verso a verso das Escrituras</p>
+              <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F2F2F2] mb-1">Estudos Profundos</h3>
+              <p className="text-sm text-[#666666] dark:text-[#A0A0A0]">Análise verso a verso das Escrituras</p>
             </div>
           </div>
 
@@ -32,8 +32,8 @@ export function AboutSection({ title, description }: Props) {
               <span className="text-2xl">💡</span>
             </div>
             <div>
-              <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-1">Aplicação Prática</h3>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Reflexões para o dia a dia</p>
+              <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F2F2F2] mb-1">Aplicação Prática</h3>
+              <p className="text-sm text-[#666666] dark:text-[#A0A0A0]">Reflexões para o dia a dia</p>
             </div>
           </div>
 
@@ -42,8 +42,8 @@ export function AboutSection({ title, description }: Props) {
               <span className="text-2xl">🔗</span>
             </div>
             <div>
-              <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-1">Navegação Fácil</h3>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Acesse os capítulos rapidamente</p>
+              <h3 className="font-semibold text-[#1A1A1A] dark:text-[#F2F2F2] mb-1">Navegação Fácil</h3>
+              <p className="text-sm text-[#666666] dark:text-[#A0A0A0]">Acesse os capítulos rapidamente</p>
             </div>
           </div>
         </div>

@@ -2,18 +2,18 @@
 export const THEME_DEFAULT = "dark"; // "system" | "dark" | "light"
 
 export const COLORS = {
-  // Neutros
+  // Neutros - Clean Light & Dark (sem tons azulados)
   neutral: {
-    50: "#fafaf8",
-    100: "#f3f0ed",
-    200: "#e8e3de",
-    300: "#d4ccc4",
-    400: "#a89e92",
-    500: "#8b8178",
-    600: "#6b5f54",
-    700: "#4a3f38",
-    800: "#2d2622",
-    900: "#1a1410",
+    50: "#F5F5F5",  // bg-page light
+    100: "#FFFFFF", // bg-card light
+    200: "#D4D4D4", // border light
+    300: "#CCCCCC",
+    400: "#999999",
+    500: "#666666", // text-alt light
+    600: "#4D4D4D",
+    700: "#333333",
+    800: "#1A1A1A", // bg-card dark
+    900: "#0D0D0D",  // bg-page dark
   },
   // Acentos azul
   blue: {
@@ -59,7 +59,7 @@ export const SHADOWS = {
 };
 
 export const BORDERS = {
-  light: "border-neutral-200 dark:border-slate-700",
-  medium: "border-neutral-300 dark:border-slate-600",
-  dark: "border-neutral-600 dark:border-slate-500",
+  light: "border-neutral-200 dark:border-[#262626]",
+  medium: "border-neutral-300 dark:border-[#333333]",
+  dark: "border-neutral-500 dark:border-[#4D4D4D]",
 };
