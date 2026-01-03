@@ -56,7 +56,7 @@ export default function AdminPage() {
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">Coleção</p>
               <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-50">Criar / Atualizar Série</h2>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Defina capa, slug, status e contagem de capítulos.</p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">Apenas 5 campos essenciais. Índice e contagem gerados automaticamente.</p>
             </div>
             <form action={upsertSeriesAction} className="space-y-5">
               <div className="space-y-2">
@@ -68,23 +68,15 @@ export default function AdminPage() {
                   className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Slug Prefix (ex: tiago)</label>
-                  <input
-                    name="slugPrefix"
-                    required
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Slug da página índice (opcional)</label>
-                  <input
-                    name="indexSlug"
-                    placeholder="tiago/tiago-00-indice"
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-                  />
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Slug Prefix <span className="text-stone-500 text-xs">(ex: tiago, 1joao)</span></label>
+                <input
+                  name="slugPrefix"
+                  required
+                  placeholder="tiago"
+                  className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+                />
+                <p className="text-xs text-stone-500 dark:text-stone-400">Identificador único da série. Será usado para gerar URLs.</p>
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Descrição</label>
@@ -103,28 +95,18 @@ export default function AdminPage() {
                   className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Status</label>
-                  <select
-                    name="status"
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-                  >
-                    <option value="em-andamento">Em andamento</option>
-                    <option value="completo">Completo</option>
-                    <option value="rascunho">Rascunho</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Qtd capítulos</label>
-                  <input
-                    name="chaptersCount"
-                    type="number"
-                    min={0}
-                    defaultValue={0}
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-                  />
-                </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Status</label>
+                <select
+                  name="status"
+                  defaultValue="em-andamento"
+                  className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+                >
+                  <option value="em-andamento">Em andamento</option>
+                  <option value="completo">Completo</option>
+                  <option value="rascunho">Rascunho</option>
+                </select>
+                <p className="text-xs text-stone-500 dark:text-stone-400">A contagem de capítulos é calculada automaticamente.</p>
               </div>
               <button
                 type="submit"
@@ -140,7 +122,7 @@ export default function AdminPage() {
             <div className="space-y-1">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300">Conteúdo</p>
               <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-50">Criar / Atualizar Capítulo</h2>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Inclua metadados, capa, autor e o markdown completo.</p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">6 campos essenciais. Autor e OG Image preenchidos automaticamente.</p>
             </div>
             <form action={upsertPostAction} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -185,54 +167,28 @@ export default function AdminPage() {
                   className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Data (ISO)</label>
-                  <input
-                    name="date"
-                    placeholder="2025-12-21"
-                    required
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">URL da capa</label>
-                  <input
-                    name="coverImage"
-                    required
-                    placeholder="/assets/blog/estudos/tiago-05-cover.png"
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">OG Image (opcional)</label>
-                  <input
-                    name="ogImage"
-                    placeholder="defaults para capa"
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Autor</label>
-                  <input
-                    name="authorName"
-                    required
-                    placeholder="Guilherme Braga"
-                    className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
-                  />
-                </div>
-              </div>
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Foto do autor</label>
+                <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">Data de Publicação</label>
                 <input
-                  name="authorPicture"
+                  name="date"
+                  type="date"
                   required
-                  placeholder="/assets/blog/authors/jj.jpeg"
+                  defaultValue={new Date().toISOString().split('T')[0]}
                   className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 />
+                <p className="text-xs text-stone-500 dark:text-stone-400">Data padrão: hoje</p>
               </div>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">URL da Capa</label>
+                <input
+                  name="coverImage"
+                  required
+                  placeholder="/assets/blog/estudos/tiago-05-cover.png"
+                  className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                />
+                <p className="text-xs text-stone-500 dark:text-stone-400">Caminho relativo ou URL completo da imagem</p>
+              </div>
+
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-stone-800 dark:text-stone-200">
                   Conteúdo (markdown) <span className="text-stone-500 text-xs">mín. 10 caracteres</span>
@@ -243,7 +199,7 @@ export default function AdminPage() {
                   minLength={10}
                   rows={10}
                   placeholder="# Título do Capítulo&#10;&#10;## Subtítulo&#10;&#10;Seu conteúdo em markdown aqui..."
-                  className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-base text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60 font-mono text-sm"
+                  className="w-full rounded-xl border border-black dark:border-black bg-white/60 dark:bg-slate-900/60 px-3 py-3 text-stone-900 dark:text-stone-50 shadow-inner shadow-black/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/60 font-mono text-sm"
                 />
               </div>
               <button

@@ -8,27 +8,32 @@ import { getSupabaseServiceClient } from "@/lib/supabase";
 const seriesSchema = z.object({
   title: z.string().min(3),
   slugPrefix: z.string().min(2),
-  indexSlug: z.string().min(3).optional(),
   description: z.string().min(5),
   coverImage: z.string().min(1),
   status: z.enum(["em-andamento", "completo", "rascunho"]),
-  chaptersCount: z.coerce.number().int().nonnegative(),
 });
 
 export async function upsertSeriesAction(formData: FormData): Promise<void> {
   const parsed = seriesSchema.parse({
     title: formData.get("title"),
     slugPrefix: formData.get("slugPrefix"),
-    indexSlug: formData.get("indexSlug"),
     description: formData.get("description"),
     coverImage: formData.get("coverImage"),
     status: formData.get("status"),
-    chaptersCount: formData.get("chaptersCount"),
   });
 
-  const indexSlug = parsed.indexSlug || `${parsed.slugPrefix}/${parsed.slugPrefix}-00-indice`;
+  // Gera automaticamente o indexSlug
+  const indexSlug = `${parsed.slugPrefix}/${parsed.slugPrefix}-00-indice`;
 
   const supabase = getSupabaseServiceClient();
+  
+  // Calcula automaticamente a contagem de capítulos
+  const { data: posts } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("series_slug", parsed.slugPrefix);
+  const chaptersCount = posts?.length || 0;
+
   const { error } = await supabase.from("series").upsert({
     title: parsed.title,
     slug: indexSlug,
@@ -37,7 +42,7 @@ export async function upsertSeriesAction(formData: FormData): Promise<void> {
     description: parsed.description,
     cover_image: parsed.coverImage,
     status: parsed.status,
-    chapters_count: parsed.chaptersCount,
+    chapters_count: chaptersCount,
     updated_at: new Date().toISOString(),
   });
 
@@ -56,11 +61,14 @@ const postSchema = z.object({
   excerpt: z.string().min(10),
   content: z.string().min(10),
   coverImage: z.string().min(1),
-  ogImage: z.string().min(1).optional(),
   date: z.string().min(4),
-  authorName: z.string().min(2),
-  authorPicture: z.string().min(1),
 });
+
+// Constantes de autor padrão
+const DEFAULT_AUTHOR = {
+  name: "Guilherme Braga",
+  picture: "/assets/blog/authors/jj.jpeg",
+};
 
 export async function upsertPostAction(formData: FormData): Promise<void> {
   try {
@@ -71,15 +79,15 @@ export async function upsertPostAction(formData: FormData): Promise<void> {
       excerpt: formData.get("excerpt"),
       content: formData.get("content"),
       coverImage: formData.get("coverImage"),
-      ogImage: formData.get("ogImage") || formData.get("coverImage"),
       date: formData.get("date"),
-      authorName: formData.get("authorName"),
-      authorPicture: formData.get("authorPicture"),
     });
+
+    // Converte data de YYYY-MM-DD para ISO 8601
+    const isoDate = new Date(parsed.date).toISOString();
 
   const supabase = getSupabaseServiceClient();
   
-  // Salvar o post
+  // Salvar o post com valores automáticos
   const { error } = await supabase.from("posts").upsert({
     series_slug: parsed.seriesSlug,
     slug: parsed.slug,
@@ -87,10 +95,10 @@ export async function upsertPostAction(formData: FormData): Promise<void> {
     excerpt: parsed.excerpt,
     content: parsed.content,
     cover_image: parsed.coverImage,
-    og_image: parsed.ogImage ?? parsed.coverImage,
-    date: parsed.date,
-    author_name: parsed.authorName,
-    author_picture: parsed.authorPicture,
+    og_image: parsed.coverImage, // OG Image = Cover Image automaticamente
+    date: isoDate,
+    author_name: DEFAULT_AUTHOR.name,
+    author_picture: DEFAULT_AUTHOR.picture,
     updated_at: new Date().toISOString(),
   });
 
