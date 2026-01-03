@@ -12,6 +12,10 @@ on:
   schedule:
     - cron: '*/15 * * * *'
 
+# ⚠️ CRÍTICO: Habilita permissão de escrita para o workflow fazer push
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -56,13 +60,11 @@ jobs:
           git add _posts/
           git commit -m "docs: sync posts from Supabase [skip ci]"
       
-      - name: Commit and push if changed
+      - name: Push changes
         if: steps.git-check.outputs.changed == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          force: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push
       
       - name: No changes detected
         if: steps.git-check.outputs.changed != 'true'
