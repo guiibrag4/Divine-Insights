@@ -1,14 +1,15 @@
 ---
-title: "Tiago | Capítulo 2: Acepção de Pessoas e Fé com Obras"
-excerpt: "A fé verdadeira não faz acepção de pessoas. Descobrir como a fé e as obras caminham juntas na vida cristã."
-date: "2025-12-21"
+title: 'Tiago | Capítulo 2: Acepção de Pessoas e Fé com Obras'
+excerpt: 'A fé verdadeira não faz acepção de pessoas. Descobrir como a fé e as obras caminham juntas na vida cristã.'
+coverImage: '/assets/blog/estudos/tiago-02-cover.png'
+date: '2025-12-21'
 author:
-  name: "Guilherme Braga"
-  picture: "/assets/blog/authors/jj.jpeg"
-coverImage: "/assets/blog/estudos/tiago-02-cover.png"
+  name: Guilherme Braga
+  picture: '/assets/blog/authors/jj.jpeg'
 ogImage:
-  url: "/assets/blog/estudos/tiago-02-cover.png"
+  url: '/assets/blog/estudos/tiago-02-cover.png'
 ---
+
 
 # Tiago | Capítulo 2: Acepção de Pessoas e Fé com Obras
 
@@ -71,3 +72,4 @@ Ainda preciso melhorar naquela questão da raiva, temperança. No geral é isso,
 **Capítulo**: 2  
 **Série**: Tiago  
 **Data de Estudo**: 21 de dezembro de 2025
+

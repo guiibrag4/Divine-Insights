@@ -1,14 +1,15 @@
 ---
-title: "Tiago | Capítulo 4: Submissão a Deus e Humildade"
-excerpt: "Guerras nascem do egoísmo. Descubra como a submissão a Deus transforma o coração e traz verdadeira paz."
-date: "2025-12-21"
+title: 'Tiago | Capítulo 4: Submissão a Deus e Humildade'
+excerpt: 'Guerras nascem do egoísmo. Descubra como a submissão a Deus transforma o coração e traz verdadeira paz.'
+coverImage: '/assets/blog/estudos/tiago-04-cover.png'
+date: '2025-12-21'
 author:
-  name: "Guilherme Braga"
-  picture: "/assets/blog/authors/jj.jpeg"
-coverImage: "/assets/blog/estudos/tiago-04-cover.png"
+  name: Guilherme Braga
+  picture: '/assets/blog/authors/jj.jpeg'
 ogImage:
-  url: "/assets/blog/estudos/tiago-04-cover.png"
+  url: '/assets/blog/estudos/tiago-04-cover.png'
 ---
+
 
 # Tiago | Capítulo 4: Submissão a Deus e Humildade
 
@@ -95,3 +96,4 @@ Não necessariamente mudar, mas preciso permanecer nessas coisas e me intensific
 **Capítulo**: 4  
 **Série**: Tiago  
 **Data de Estudo**: 21 de dezembro de 2025
+

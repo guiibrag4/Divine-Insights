@@ -10,6 +10,7 @@ ogImage:
   url: '/assets/blog/estudos/1joao-cover.png'
 ---
 
+
 ## Sobre este Estudo
 
 A primeira carta de João é uma das epístolas mais profundas do Novo Testamento, abordando temas essenciais como **comunhão com Deus**, **andar na luz**, **amor fraternal** e **discernimento espiritual**. Este estudo foi desenvolvido para proporcionar uma compreensão profunda e prática de cada capítulo.
@@ -72,3 +73,4 @@ Prepare-se para uma jornada transformadora através das palavras do "apóstolo d
 
 ### 🔗 Navegação Rápida
 - [← Voltar ao Início](/)
+

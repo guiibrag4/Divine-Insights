@@ -1,14 +1,15 @@
 ---
-title: "Tiago | Capítulo 3: O Poder da Língua e a Verdadeira Sabedoria"
-excerpt: "A língua é pequena, mas poderosa. Aprenda a domar a língua e a cultivar a sabedoria que vem do alto."
-date: "2025-12-21"
+title: 'Tiago | Capítulo 3: O Poder da Língua e a Verdadeira Sabedoria'
+excerpt: 'A língua é pequena, mas poderosa. Aprenda a domar a língua e a cultivar a sabedoria que vem do alto.'
+coverImage: '/assets/blog/estudos/tiago-03-cover.png'
+date: '2025-12-21'
 author:
-  name: "Guilherme Braga"
-  picture: "/assets/blog/authors/jj.jpeg"
-coverImage: "/assets/blog/estudos/tiago-03-cover.png"
+  name: Guilherme Braga
+  picture: '/assets/blog/authors/jj.jpeg'
 ogImage:
-  url: "/assets/blog/estudos/tiago-03-cover.png"
+  url: '/assets/blog/estudos/tiago-03-cover.png'
 ---
+
 
 # Tiago | Capítulo 3: O Poder da Língua e a Verdadeira Sabedoria
 
@@ -100,3 +101,4 @@ Ser parte de uma geração diferente na igreja brasileira significa trocar a **f
 **Capítulo**: 3  
 **Série**: Tiago  
 **Data de Estudo**: 21 de dezembro de 2025
+

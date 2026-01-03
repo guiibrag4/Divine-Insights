@@ -1,14 +1,15 @@
 ---
-title: "Tiago | Índice Completo"
-excerpt: "Índice de todos os capítulos do livro de Tiago - Fé prática e aplicação no dia a dia"
-date: "2025-12-21"
+title: 'Tiago | Índice Completo'
+excerpt: 'Índice de todos os capítulos do livro de Tiago - Fé prática e aplicação no dia a dia'
+coverImage: '/assets/blog/estudos/tiago-cover.png'
+date: '2025-12-21'
 author:
-  name: "Guilherme Braga"
-  picture: "/assets/blog/authors/jj.jpeg"
-coverImage: "/assets/blog/estudos/tiago-cover.png"
+  name: Guilherme Braga
+  picture: '/assets/blog/authors/jj.jpeg'
 ogImage:
-  url: "/assets/blog/estudos/tiago-cover.png"
+  url: '/assets/blog/estudos/tiago-cover.png'
 ---
+
 
 # 📖 Tiago - Índice Completo
 
@@ -62,3 +63,4 @@ Cada capítulo foi desenvolvido para:
 **Última atualização**: 21 de dezembro de 2025  
 **Série**: Tiago  
 **Total de Capítulos**: 4
+

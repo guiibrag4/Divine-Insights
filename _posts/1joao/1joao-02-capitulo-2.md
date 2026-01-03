@@ -10,6 +10,7 @@ ogImage:
   url: '/assets/blog/estudos/1joao-cover.png'
 ---
 
+
 ### Andar na Luz X Andar nas trevas
 
 `Aquele que afirma que permanece nele deve andar como ele andou. (1Jo 2:6)`
@@ -61,3 +62,4 @@ Tudo isto está posto diante de nós, todos os dias, e todos os dias precisamos 
 ### Navegação
 
 👈 **[Voltar para o Capítulo 1](/posts/1joao/1joao-01-capitulo-1)**
+

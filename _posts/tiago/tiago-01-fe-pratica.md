@@ -1,14 +1,15 @@
 ---
-title: "Tiago | Capítulo 1: Fé Prática e Perseverança"
-excerpt: "Provas transformam nossa fé em maturidade. Descubra como a perseverança nos torna íntegros e o poder de praticar a Palavra."
-date: "2025-12-21"
+title: 'Tiago | Capítulo 1: Fé Prática e Perseverança'
+excerpt: 'Provas transformam nossa fé em maturidade. Descubra como a perseverança nos torna íntegros e o poder de praticar a Palavra.'
+coverImage: '/assets/blog/estudos/tiago-01-cover.png'
+date: '2025-12-21'
 author:
-  name: "Guilherme Braga"
-  picture: "/assets/blog/authors/jj.jpeg"
-coverImage: "/assets/blog/estudos/tiago-01-cover.png"
+  name: Guilherme Braga
+  picture: '/assets/blog/authors/jj.jpeg'
 ogImage:
-  url: "/assets/blog/estudos/tiago-01-cover.png"
+  url: '/assets/blog/estudos/tiago-01-cover.png'
 ---
+
 
 # Tiago | Capítulo 1: Fé Prática e Perseverança
 
@@ -86,3 +87,4 @@ _Tiago é um livro muito prático. Aqui estão as aplicações práticas do cap�
 **Capítulo**: 1  
 **Série**: Tiago  
 **Data de Estudo**: 21 de dezembro de 2025
+
