@@ -14,8 +14,10 @@ export function parsePostSlug(slug: string): {
   series: string | null;
 } {
   const normalizedSlug = normalizeSlug(slug);
-  const fileName = normalizedSlug.split("/").pop() || normalizedSlug;
-  const seriesMatch = fileName.match(/^([a-z0-9]+)-/);
-  const series = seriesMatch ? seriesMatch[1] : null;
+  const parts = normalizedSlug.split("/");
+  const fileName = parts.pop() || normalizedSlug;
+  const seriesFromPath = parts.length > 0 ? parts[0] : null; // primeiro segmento do caminho
+  const seriesFromPrefix = fileName.match(/^([a-z0-9]+)-/)?.[1] || null; // prefixo no nome do arquivo
+  const series = seriesFromPath || seriesFromPrefix;
   return { normalizedSlug, fileName, series };
 }

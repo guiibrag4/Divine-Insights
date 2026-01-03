@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --webpack",
     "dev:clean": "powershell -NoProfile -Command \"taskkill /IM node.exe /F; Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue; Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; npm run dev\"",
     "build": "next build",
     "start": "next start"

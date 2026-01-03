@@ -88,7 +88,7 @@ export async function upsertPostAction(formData: FormData): Promise<void> {
   const supabase = getSupabaseServiceClient();
   
   // Salvar o post com valores automáticos
-  const { error } = await supabase.from("posts").upsert({
+  const { data: savedPost, error } = await supabase.from("posts").upsert({
     series_slug: parsed.seriesSlug,
     slug: parsed.slug,
     title: parsed.title,
@@ -100,7 +100,7 @@ export async function upsertPostAction(formData: FormData): Promise<void> {
     author_name: DEFAULT_AUTHOR.name,
     author_picture: DEFAULT_AUTHOR.picture,
     updated_at: new Date().toISOString(),
-  });
+  }).select();
 
   if (error) {
     console.error("Erro ao salvar post", error);
@@ -119,6 +119,41 @@ export async function upsertPostAction(formData: FormData): Promise<void> {
     .from("series")
     .update({ chapters_count: chaptersCount, updated_at: new Date().toISOString() })
     .eq("slug_prefix", parsed.seriesSlug);
+
+  // Disparar webhook para GitHub Actions (regenerar site estático)
+  try {
+    const githubToken = process.env.GITHUB_WEBHOOK_TOKEN;
+    if (!githubToken) {
+      console.warn('⚠️ GITHUB_WEBHOOK_TOKEN não configurado - webhook não será disparado');
+    } else {
+      const webhookResponse = await fetch('https://api.github.com/repos/guiibrag4/Divine-Insights/dispatches', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event_type: 'supabase-post-created',
+          client_payload: {
+            post_id: savedPost?.[0]?.id || null,
+            series_slug: parsed.seriesSlug,
+            slug: parsed.slug,
+            title: parsed.title,
+          }
+        })
+      });
+
+      if (webhookResponse.ok) {
+        console.log('✅ Webhook disparado com sucesso! GitHub Actions iniciará em breve.');
+      } else {
+        console.error('⚠️ Erro ao disparar webhook:', webhookResponse.status, await webhookResponse.text());
+      }
+    }
+  } catch (webhookError) {
+    // Não bloquear o salvamento se o webhook falhar
+    console.error('⚠️ Falha ao disparar webhook (post foi salvo):', webhookError);
+  }
 
   // Revalidar todas as páginas relevantes
   revalidatePath("/", "layout");

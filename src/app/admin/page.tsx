@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 export default function AdminPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-neutral-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <main className="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-neutral-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" suppressHydrationWarning>
       <div className="max-w-6xl mx-auto px-6 py-12 space-y-10">
         <header className="rounded-3xl border border-white/60 dark:border-slate-800 bg-white/70 dark:bg-slate-900/50 shadow-xl shadow-blue-900/5 dark:shadow-black/30 backdrop-blur-lg p-8 space-y-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

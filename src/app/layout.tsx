@@ -1,6 +1,5 @@
 import Footer from "@/app/_components/footer";
 import { HOME_OG_IMAGE_URL } from "@/lib/constants";
-import { NoFOUCScript } from "./_components/theme-switcher";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
@@ -61,10 +60,16 @@ export default function RootLayout({
       <body
         className={cn(inter.className, "bg-[#F5F5F5] dark:bg-[#0D0D0D] text-[#1A1A1A] dark:text-[#F2F2F2]")} suppressHydrationWarning
       >
-        {/* Inject theme script early to avoid FOUC and ensure updateDOM exists */}
+        {/* Inject theme script early to avoid FOUC */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(${NoFOUCScript.toString()})("nextjs-blog-starter-theme")`,
+            __html: `
+              (function() {
+                const storageKey = "nextjs-blog-starter-theme";
+                const theme = localStorage.getItem(storageKey) || "dark";
+                document.documentElement.classList.toggle("dark", theme === "dark");
+              })();
+            `,
           }}
         />
         <div className="min-h-screen" suppressHydrationWarning>{children}</div>
