@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/lib/api";
+import { getStudyBySlug, getPublishedStudies } from "@/lib/api";
 import { getChapterNavigation } from "@/lib/navigation";
 import { getAllSeries } from "@/lib/series";
 import markdownToHtml from "@/lib/markdownToHtml";
@@ -19,7 +19,7 @@ export const revalidate = 60;
 export default async function Post(props: Params) {
   const params = await props.params;
   const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug;
-  const post = await getPostBySlug(slug);
+  const post = await getStudyBySlug(slug);
 
   if (!post) {
     return notFound();
@@ -153,7 +153,7 @@ type Params = {
 export async function generateMetadata(props: Params): Promise<Metadata> {
   const params = await props.params;
   const slug = params.slug.join('/');
-  const post = await getPostBySlug(slug);
+  const post = await getStudyBySlug(slug);
   if (!post) return notFound();
   return { title: post.title, description: post.excerpt };
 }
